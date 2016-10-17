@@ -1,0 +1,84 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * Bet
+ */
+class Bet
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $sum;
+
+    /**
+     * @var datetimez
+     */
+    private $created;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set sum
+     *
+     * @param string $sum
+     *
+     * @return Bet
+     */
+    public function setSum($sum)
+    {
+        $this->sum = $sum;
+
+        return $this;
+    }
+
+    /**
+     * Get sum
+     *
+     * @return string
+     */
+    public function getSum()
+    {
+        return $this->sum;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \datetimez $created
+     *
+     * @return Bet
+     */
+    public function setCreated(\datetimez $created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \datetimez
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+}
+

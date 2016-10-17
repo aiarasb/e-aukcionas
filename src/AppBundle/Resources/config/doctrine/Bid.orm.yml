@@ -1,0 +1,27 @@
+AppBundle\Entity\Bid:
+    repositoryClass: AppBundle\Doctrine\Repository\BidRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        sum:
+            type: decimal
+            precision: 18
+            scale: 2
+        created:
+            type: datetimetz
+    manyToOne:
+        user:
+            targetEntity: User
+            joinColumn:
+                name: userId
+                referencedColumnName: id
+        item:
+            targetEntity: Item
+            joinColumn:
+                name: itemId
+                referencedColumnName: id

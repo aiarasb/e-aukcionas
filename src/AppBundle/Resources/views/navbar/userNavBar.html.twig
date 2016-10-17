@@ -1,0 +1,10 @@
+<ul class="nav navbar-nav navbar-right">
+    {% if loggedIn %}
+        <li class=""><a href="{{ path('user_items') }}">Mano prekės</a></li>
+        <li class=""><a href="{{ path('user_settings') }}">Nustatymai</a></li>
+        <li class=""><a href="{{ path('logout') }}">Atsijungti</a></li>
+    {% else %}
+        <li class=""><a href="{{ path('login') }}">Prisijungti</a></li>
+        <li class=""><a href="{{ path('register') }}">Registruotis</a></li>
+    {% endif %}
+</ul>

@@ -1,0 +1,46 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2>Tavo prekės</h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="{{ path('add_item') }}">
+                    <button class="btn btn-primary pull-right">Nauja prekė</button>
+                </a>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pavadinimas</th>
+                    <th>Būsena</th>
+                    <th>Pradinė kaina</th>
+                    <th>Aukščiausias statymas</th>
+                    <th>Aukciono pradžia</th>
+                    <th>Aukciono pabaiga</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('auction', {'id': item.id}) }}">{{ item.name }}</a>
+                        </td>
+                        <td>
+                            {% if item.status == 'selling' %}
+                                Aukcionas vyksta
+                            {% else %}
+                                Aukcionas pasibaigęs
+                            {% endif %}
+                        </td>
+                        <td>{{ item.basePrice }}</td>
+                        <td>{{ item.currentPrice }}</td>
+                        <td>{{ item.auctionStart|date("Y-m-d H:m:s") }}</td>
+                        <td>{{ item.auctionEnd|date("Y-m-d H:m:s") }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

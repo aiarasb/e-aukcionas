@@ -1,0 +1,14 @@
+AppBundle\Entity\User:
+    constraints:
+        - AppBundle\Service\Validator\Constraints\User\UniqueUserData: ~
+    properties:
+        username:
+            - NotBlank: ~
+        password:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
+        firstName:
+            - NotBlank: ~
+        lastName:
+            - NotBlank: ~

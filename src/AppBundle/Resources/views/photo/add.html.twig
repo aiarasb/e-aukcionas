@@ -1,0 +1,86 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{%  block body %}
+    <div class="container">
+        <h2>Įkelkite nuotraukas</h2>
+        <div class="row">
+            {{  form_start(form, { 'attr': {'class': 'dropzone', 'id': 'uploadForm'} }) }}
+            <div class="fallback">
+                {{ form_widget(form.file) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="row">
+            <span class="btn btn-primary pull-right" id="processUpload">Upload</span>
+        </div>
+        <div class="row" style="display: none;" id="uploadErrorMessage">
+            <h4>ERROR</h4>
+            <p>There were errors while uploading.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_inline %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        var uploadForm = new Dropzone(
+                "form#uploadForm",
+                {
+                    url: "{{ path('upload_photo', {'itemId': item.id}) }}",
+                    addRemoveLinks: true,
+                    autoProcessQueue: false,
+                    acceptedFiles: 'image/*',
+                    maxFileSize: 2,
+                    parallelUploads: 1
+                }
+        );
+
+        $(document).ready(function () {
+            var uploadErrorCount = 0;
+            var uploadStarted = false;
+
+            $("#processUpload").on("click", function () {
+                if ($(this).attr('disabled') != 'disabled') {
+                    $(this).attr('disabled', 'disabled');
+                    $(".dz-remove").hide();
+                    uploadStarted = true;
+                    uploadForm.processQueue();
+                }
+            });
+
+            uploadForm.on("success", function () {
+                uploadForm.processQueue();
+            });
+
+            uploadForm.on("error", function () {
+                if (uploadStarted) {
+                    uploadErrorCount++;
+                    $("#uploadErrorMessage").show();
+                }
+            });
+
+            uploadForm.on("queuecomplete", function () {
+                if (uploadStarted) {
+                    uploadForm.disable();
+                    if (uploadErrorCount == 0) {
+                        window.location = "{{ path("user_items") }}";
+                    }
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,53 @@
+AppBundle\Entity\Item:
+    repositoryClass: AppBundle\Doctrine\Repository\ItemRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 64
+        description:
+            type: text
+            nullable: true
+        created:
+            type: datetimetz
+        lastUpdated:
+            type: datetimetz
+        status:
+            type: string
+            length: 32
+        currentPrice:
+            type: decimal
+            precision: 18
+            scale: 2
+            default: '0.00'
+            nullbale: true
+        basePrice:
+            type: decimal
+            precision: 18
+            scale: 2
+            default: '0.00'
+        auctionStart:
+            type: datetimetz
+        auctionEnd:
+            type: datetimetz
+    manyToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: ownerId
+                referencedColumnName: id
+        photo:
+            targetEntity: Photo
+            joinColumn:
+                name: photoId
+                referencedColumnName: id
+    oneToMany:
+        photos:
+            targetEntity: Photo
+            mappedBy: item

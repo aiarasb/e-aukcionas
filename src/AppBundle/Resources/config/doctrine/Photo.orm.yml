@@ -1,0 +1,26 @@
+AppBundle\Entity\Photo:
+    repositoryClass: AppBundle\Doctrine\Repository\PhotoRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 64
+        path:
+            type: string
+            length: 128
+        description:
+            type: text
+            nullabe: true
+    manyToOne:
+        item:
+            targetEntity: Item
+            inversedBy: photos
+            joinColumn:
+                name: itemId
+                referencedColumnName: id

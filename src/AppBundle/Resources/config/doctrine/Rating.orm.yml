@@ -1,0 +1,26 @@
+AppBundle\Entity\Rating:
+    repositoryClass: AppBundle\Doctrine\Repository\RatingRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        rate:
+            type: integer
+        comment:
+            type: text
+            nullable: true
+    manyToOne:
+        author:
+            targetEntity: User
+            joinColumn:
+                name: authorId
+                referencedColumnName: id
+        receiver:
+            targetEntity: User
+            joinColumn:
+                name: receiverId
+                referencedColumnName: id

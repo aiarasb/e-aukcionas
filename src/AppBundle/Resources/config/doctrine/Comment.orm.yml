@@ -1,0 +1,26 @@
+AppBundle\Entity\Comment:
+    repositoryClass: AppBundle\Doctrine\Repository\CommentRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        comment:
+            type: text
+            nullable: true
+        created:
+            type: datetimetz
+    manyToOne:
+        author:
+            targetEntity: User
+            joinColumn:
+                name: authorId
+                referencedColumnName: id
+        item:
+            targetEntity: Item
+            joinColumn:
+                name: itemId
+                referencedColumnName: id

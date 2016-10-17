@@ -1,0 +1,83 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{%  block body %}
+    <div class="login-wrap">
+        <div class="container">
+            {% if errors %}
+                <div class="bg-danger message">
+                    {{ errors }}
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-2"></div>
+                {{ form_start(form, { 'attr': {'class': 'form-horizontal col-lg-7'} }) }}
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <h2 class="col-sm-9">Nauja prekė</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Pavadinimas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(form.name, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Aprašymas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(form.description, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Pradinė kaina</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(form.basePrice, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Aukciona pradžia</label>
+                        <div class=" col-sm-9">
+                            <div class='input-group date' id='datetimepicker1'>
+                                {{ form_widget(form.auctionStart, { 'attr': {'class': 'form-control' } }) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Aukciono pabaiga</label>
+                        <div class=" col-sm-9">
+                            <div class='input-group date' id='datetimepicker2'>
+                                {{ form_widget(form.auctionEnd, { 'attr': {'class': 'form-control' } }) }}
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            {{ form_widget(form.create, { 'attr': {'class': 'btn btn-default'} }) }}
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_inline %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker2').datetimepicker();
+        });
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js') }}"></script>
+{% endblock %}

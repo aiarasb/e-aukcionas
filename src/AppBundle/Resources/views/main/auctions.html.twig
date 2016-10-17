@@ -1,0 +1,19 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2>Vykstantys aukcionai</h2>
+        <div class="row">
+            {% for item in items %}
+                <div class="col-md-3">
+                    {% if item.photo is defined and item.photo is not null %}
+                        <img class="img-responsive center-block" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
+                    {% else %}
+                        <img class="img-responsive center-block" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                    {% endif %}
+                    <a href="{{ path('auction', { 'id': item.id }) }}" ><h4 class="text-center">{{ item.name }}</h4></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

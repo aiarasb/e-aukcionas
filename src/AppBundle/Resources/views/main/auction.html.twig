@@ -1,0 +1,61 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if item is defined and item is not null %}
+            <h2>{{ item.name }}</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row" style="max-height:400px;overflow:hidden;">
+                        {% if item.photo is defined and item.photo is not null %}
+                            <img id="big-img" class="img-responsive" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
+                        {% else %}
+                            <img id="big-img" class="img-responsive" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                        {% endif %}
+                    </div>
+                    {% if item.photos is defined and item.photos is not null %}
+                        <div class="row" style="padding-top:15px;padding-bottom:15px;">
+                            {% for photo in item.photos %}
+                                <div class="col-sm-2">
+                                    {% if photo is not null %}
+                                        <img class="img-responsive thumb-img" src="{{ asset('uploads/images/' ~ photo.name) }}">
+                                    {% else %}
+                                        <img class="img-responsive" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h4>Pradinė kaina</h4>
+                    <div>{{ item.basePrice }}</div>
+                    <h4>Aukščiausias statymas</h4>
+                    {% if item.currentPrice is not null %}
+                        <div>{{ item.currentPrice }}</div>
+                    {% else %}
+                        <div>-</div>
+                    {% endif %}
+                </div>
+            </div>
+            <h3>Aprašymas</h3>
+            <p>{{ item.description }}</p>
+        {% else %}
+            <h2>Aukcionas neegzistuoja</h2>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascript_inline %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            $(".thumb-img").click(function () {
+                var url = $(this).attr('src');
+                $("#big-img").attr('src', url);
+            });
+        });
+    </script>
+
+{% endblock %}

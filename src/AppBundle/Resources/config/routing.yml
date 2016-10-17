@@ -1,0 +1,39 @@
+index:
+    path: /
+    defaults: { _controller: AppBundle:Main:index }
+
+auction_list:
+    path: /auctions
+    defaults: { _controller: AppBundle:Main:auctions }
+
+auction:
+    path: /auction/{id}
+    defaults: { _controller: AppBundle:Main:auction }
+
+login:
+    path: /login
+    defaults: { _controller: AppBundle:User:login }
+
+logout:
+    path: /logout
+    defaults: { _controller: AppBundle:User:logout }
+
+register:
+    path: /register
+    defaults: { _controller: AppBundle:User:register }
+
+user_items:
+    path: /my_items
+    defaults: { _controller: AppBundle:User:items }
+
+user_settings:
+    path: /settings
+    defaults: { _controller: AppBundle:User:settings }
+
+add_item:
+    path: /add_item
+    defaults: { _controller: AppBundle:Item:add }
+
+upload_photo:
+    path: /{itemId}/upload_image
+    defaults: { _controller: AppBundle:Photo:upload }

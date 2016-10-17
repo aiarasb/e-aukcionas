@@ -1,0 +1,16 @@
+AppBundle\Entity\Category:
+    repositoryClass: AppBundle\Doctrine\Repository\CategoryRepository
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 64
+        description:
+            type: text
+            nullable: true

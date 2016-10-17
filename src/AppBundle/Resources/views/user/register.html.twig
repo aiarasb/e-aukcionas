@@ -1,0 +1,75 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{%  block body %}
+    <div class="login-wrap">
+        <div class="container">
+            {% if errors %}
+                <div class="bg-danger message">
+                    {{ errors }}
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-3"></div>
+                {{ form_start(registerForm, { 'attr': {'class': 'form-horizontal col-lg-6'} }) }}
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <h2 class="col-sm-9">Registracija</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Vartotojo vardas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.username, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Slaptažodis</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.password, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">El. pašto adresas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.email, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Vardas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.firstName, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Pavardė</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.lastName, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Adresas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.address, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Miestas</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.city, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Telefono nr.</label>
+                        <div class="col-sm-9">
+                            {{ form_widget(registerForm.phone, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            {{ form_widget(registerForm.register, { 'attr': {'class': 'btn btn-default'} }) }}
+                        </div>
+                    </div>
+                {{ form_end(registerForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
