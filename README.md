@@ -1,4 +1,10 @@
 e-aukcionas
 ===========
 
-A Symfony project created on October 18, 2016, 12:23 am.
+A university project - auction system.
+
+Installation:
+
+1. Make a copy of a project.
+2. Install bower components.
+3. Create database schema.
