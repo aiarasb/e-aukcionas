@@ -25,7 +25,7 @@ class ItemController extends Controller
             if ($form->isValid()) {
                 $item->setOwner($this->get('user_manager')->getUser());
                 $this->getRepository()->create($item);
-                return $this->redirectToRoute('upload_photo', ['id' => $item->getId()]);
+                return $this->redirectToRoute('upload_photo', ['itemId' => $item->getId()]);
             } else {
                 $errors = $form->getErrors();
             }
