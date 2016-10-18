@@ -106,7 +106,7 @@ class UserController extends Controller
 
     public function settingsAction()
     {
-        return null;
+        return $this->redirectToRoute('index');
     }
 
     /**

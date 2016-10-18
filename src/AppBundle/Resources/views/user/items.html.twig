@@ -19,6 +19,7 @@
                     <th>Aukščiausias statymas</th>
                     <th>Aukciono pradžia</th>
                     <th>Aukciono pabaiga</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,11 @@
                         <td>{{ item.currentPrice }}</td>
                         <td>{{ item.auctionStart|date("Y-m-d H:m:s") }}</td>
                         <td>{{ item.auctionEnd|date("Y-m-d H:m:s") }}</td>
+                        <td>
+                            <a href="{{ path('upload_photo', {'itemId': item.id}) }}">
+                                Pridėti nuotraukų
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

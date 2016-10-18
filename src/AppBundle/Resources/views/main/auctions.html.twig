@@ -5,6 +5,10 @@
         <h2>Vykstantys aukcionai</h2>
         <div class="row">
             {% for item in items %}
+                {% if (loop.index - 1) % 4 == 0 %}
+                    </div>
+                    <div class="row">
+                {% endif %}
                 <div class="col-md-3">
                     {% if item.photo is defined and item.photo is not null %}
                         <img class="img-responsive center-block" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
