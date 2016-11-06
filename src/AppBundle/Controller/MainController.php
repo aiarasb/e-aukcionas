@@ -57,11 +57,13 @@ class MainController extends Controller
     {
         /** @var Item $item */
         $item = $this->getRepository()->findOneBy(['id' => $id, 'status' => 'selling']);
+        $user = $this->get('user_manager')->getUser();
 
         return $this->render(
             'AppBundle:main:auction.html.twig',
             [
-                'item' => $item
+                'item' => $item,
+                'user' => $user
             ]
         );
     }

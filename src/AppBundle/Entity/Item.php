@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Item
  */
@@ -73,11 +75,21 @@ class Item
     private $photo;
 
     /**
+     * @var string
+     */
+    private $buyNowPrice;
+
+    /**
+     * @var User
+     */
+    private $buyer;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     /**
@@ -390,5 +402,53 @@ class Item
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Set buyNowPrice
+     *
+     * @param string $buyNowPrice
+     *
+     * @return Item
+     */
+    public function setBuyNowPrice($buyNowPrice)
+    {
+        $this->buyNowPrice = $buyNowPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get buyNowPrice
+     *
+     * @return string
+     */
+    public function getBuyNowPrice()
+    {
+        return $this->buyNowPrice;
+    }
+
+    /**
+     * Set buyer
+     *
+     * @param User $buyer
+     *
+     * @return Item
+     */
+    public function setBuyer(User $buyer = null)
+    {
+        $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    /**
+     * Get buyer
+     *
+     * @return User
+     */
+    public function getBuyer()
+    {
+        return $this->buyer;
     }
 }

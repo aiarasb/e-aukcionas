@@ -31,10 +31,17 @@ AppBundle\Entity\Item:
             precision: 18
             scale: 2
             default: '0.00'
+        buyNowPrice:
+            type: decimal
+            precision: 18
+            scale: 2
+            default: '0.00'
         auctionStart:
             type: datetimetz
+            nullable: true
         auctionEnd:
             type: datetimetz
+            nullable: true
     manyToOne:
         owner:
             targetEntity: User
@@ -45,6 +52,11 @@ AppBundle\Entity\Item:
             targetEntity: Photo
             joinColumn:
                 name: photoId
+                referencedColumnName: id
+        buyer:
+            targetEntity: User
+            joinColumn:
+                name: buyerId
                 referencedColumnName: id
     oneToMany:
         photos:
