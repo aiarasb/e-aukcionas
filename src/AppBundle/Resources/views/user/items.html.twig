@@ -17,6 +17,7 @@
                     <th>Būsena</th>
                     <th>Pradinė kaina</th>
                     <th>Aukščiausias statymas</th>
+                    <th>Pirk dabar kaina</th>
                     <th>Aukciono pradžia</th>
                     <th>Aukciono pabaiga</th>
                     <th></th>
@@ -37,8 +38,9 @@
                         </td>
                         <td>{{ item.basePrice }}</td>
                         <td>{{ item.currentPrice }}</td>
-                        <td>{{ item.auctionStart|date("Y-m-d H:m:s") }}</td>
-                        <td>{{ item.auctionEnd|date("Y-m-d H:m:s") }}</td>
+                        <td>{{ item.buyNowPrice }}</td>
+                        <td>{% if item.auctionStart is not null %}{{ item.auctionStart|date("Y-m-d H:m:s") }}{% endif %}</td>
+                        <td>{% if item.auctionEnd is not null %}{{ item.auctionEnd|date("Y-m-d H:m:s") }}{% endif %}</td>
                         <td>
                             <a href="{{ path('upload_photo', {'itemId': item.id}) }}">
                                 Pridėti nuotraukų

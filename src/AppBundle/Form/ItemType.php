@@ -26,14 +26,25 @@ class ItemType extends AbstractType
             )
             ->add(
                 'basePrice',
-                NumberType::class
+                NumberType::class,
+                [
+                    'required' => false
+                ]
+            )
+            ->add(
+                'buyNowPrice',
+                NumberType::class,
+                [
+                    'required' => false
+                ]
             )
             ->add(
                 'auctionStart',
                 DateTimeType::class,
                 [
                     'html5' => true,
-                    'widget' => 'single_text'
+                    'widget' => 'single_text',
+                    'required' => false
                 ]
             )
             ->add(
@@ -41,7 +52,8 @@ class ItemType extends AbstractType
                 DateTimeType::class,
                 [
                     'html5' => true,
-                    'widget' => 'single_text'
+                    'widget' => 'single_text',
+                    'required' => false
                 ]
             )
             ->add(

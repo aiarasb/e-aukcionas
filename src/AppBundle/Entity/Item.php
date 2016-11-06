@@ -47,7 +47,7 @@ class Item
     /**
      * @var string
      */
-    private $basePrice;
+    private $basePrice = 0;
 
     /**
      * @var \DateTime
@@ -77,7 +77,7 @@ class Item
     /**
      * @var string
      */
-    private $buyNowPrice;
+    private $buyNowPrice = 0;
 
     /**
      * @var User
@@ -259,7 +259,11 @@ class Item
      */
     public function setBasePrice($basePrice)
     {
-        $this->basePrice = $basePrice;
+        if (null === $basePrice) {
+            $this->basePrice = 0;
+        } else {
+            $this->basePrice = $basePrice;
+        }
 
         return $this;
     }
@@ -413,7 +417,11 @@ class Item
      */
     public function setBuyNowPrice($buyNowPrice)
     {
-        $this->buyNowPrice = $buyNowPrice;
+        if (null === $buyNowPrice) {
+            $this->buyNowPrice = 0;
+        } else {
+            $this->buyNowPrice = $buyNowPrice;
+        }
 
         return $this;
     }
