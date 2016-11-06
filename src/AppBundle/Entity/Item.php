@@ -40,7 +40,7 @@ class Item
     /**
      * @var string
      */
-    private $currentPrice;
+    private $currentPrice = 0;
 
     /**
      * @var string
@@ -219,7 +219,11 @@ class Item
      */
     public function setCurrentPrice($currentPrice)
     {
-        $this->currentPrice = $currentPrice;
+        if (null === $currentPrice) {
+            $this->currentPrice = 0;
+        } else {
+            $this->currentPrice = $currentPrice;
+        }
 
         return $this;
     }

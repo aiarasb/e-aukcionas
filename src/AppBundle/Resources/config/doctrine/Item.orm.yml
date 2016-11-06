@@ -26,7 +26,6 @@ AppBundle\Entity\Item:
             precision: 18
             scale: 2
             default: '0.00'
-            nullbale: true
         basePrice:
             type: decimal
             precision: 18
