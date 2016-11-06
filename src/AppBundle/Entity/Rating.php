@@ -23,12 +23,12 @@ class Rating
     private $comment;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      */
     private $author;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      */
     private $receiver;
 
@@ -94,11 +94,11 @@ class Rating
     /**
      * Set author
      *
-     * @param \AppBundle\Entity\User $author
+     * @param User $author
      *
      * @return Rating
      */
-    public function setAuthor(\AppBundle\Entity\User $author = null)
+    public function setAuthor(User $author = null)
     {
         $this->author = $author;
 
@@ -108,7 +108,7 @@ class Rating
     /**
      * Get author
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getAuthor()
     {
@@ -118,11 +118,11 @@ class Rating
     /**
      * Set receiver
      *
-     * @param \AppBundle\Entity\User $receiver
+     * @param User $receiver
      *
      * @return Rating
      */
-    public function setReceiver(\AppBundle\Entity\User $receiver = null)
+    public function setReceiver(User $receiver = null)
     {
         $this->receiver = $receiver;
 
@@ -132,11 +132,10 @@ class Rating
     /**
      * Get receiver
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getReceiver()
     {
         return $this->receiver;
     }
 }
-

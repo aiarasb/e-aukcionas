@@ -23,12 +23,7 @@ class Photo
     private $path;
 
     /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var \AppBundle\Entity\Item
+     * @var Item
      */
     private $item;
 
@@ -92,37 +87,13 @@ class Photo
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Photo
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set item
      *
-     * @param \AppBundle\Entity\Item $item
+     * @param Item $item
      *
      * @return Photo
      */
-    public function setItem(\AppBundle\Entity\Item $item = null)
+    public function setItem(Item $item = null)
     {
         $this->item = $item;
 
@@ -132,7 +103,7 @@ class Photo
     /**
      * Get item
      *
-     * @return \AppBundle\Entity\Item
+     * @return Item
      */
     public function getItem()
     {

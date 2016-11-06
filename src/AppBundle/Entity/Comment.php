@@ -23,12 +23,12 @@ class Comment
     private $created;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      */
     private $author;
 
     /**
-     * @var \AppBundle\Entity\Item
+     * @var Item
      */
     private $item;
 
@@ -94,11 +94,11 @@ class Comment
     /**
      * Set author
      *
-     * @param \AppBundle\Entity\User $author
+     * @param User $author
      *
      * @return Comment
      */
-    public function setAuthor(\AppBundle\Entity\User $author = null)
+    public function setAuthor(User $author = null)
     {
         $this->author = $author;
 
@@ -108,7 +108,7 @@ class Comment
     /**
      * Get author
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getAuthor()
     {
@@ -118,11 +118,11 @@ class Comment
     /**
      * Set item
      *
-     * @param \AppBundle\Entity\Item $item
+     * @param Item $item
      *
      * @return Comment
      */
-    public function setItem(\AppBundle\Entity\Item $item = null)
+    public function setItem(Item $item = null)
     {
         $this->item = $item;
 
@@ -132,11 +132,10 @@ class Comment
     /**
      * Get item
      *
-     * @return \AppBundle\Entity\Item
+     * @return Item
      */
     public function getItem()
     {
         return $this->item;
     }
 }
-

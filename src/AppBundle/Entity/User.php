@@ -313,4 +313,3 @@ class User
         return $this->lastUpdated;
     }
 }
-

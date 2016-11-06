@@ -14,9 +14,6 @@ AppBundle\Entity\Photo:
         path:
             type: string
             length: 128
-        description:
-            type: text
-            nullabe: true
     manyToOne:
         item:
             targetEntity: Item

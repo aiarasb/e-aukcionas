@@ -63,12 +63,12 @@ class Item
     private $photos;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      */
     private $owner;
 
     /**
-     * @var \AppBundle\Entity\Photo
+     * @var Photo
      */
     private $photo;
 
@@ -313,11 +313,11 @@ class Item
     /**
      * Add photo
      *
-     * @param \AppBundle\Entity\Photo $photo
+     * @param Photo $photo
      *
      * @return Item
      */
-    public function addPhoto(\AppBundle\Entity\Photo $photo)
+    public function addPhoto(Photo $photo)
     {
         $this->photos[] = $photo;
 
@@ -327,9 +327,9 @@ class Item
     /**
      * Remove photo
      *
-     * @param \AppBundle\Entity\Photo $photo
+     * @param Photo $photo
      */
-    public function removePhoto(\AppBundle\Entity\Photo $photo)
+    public function removePhoto(Photo $photo)
     {
         $this->photos->removeElement($photo);
     }
@@ -347,11 +347,11 @@ class Item
     /**
      * Set owner
      *
-     * @param \AppBundle\Entity\User $owner
+     * @param User $owner
      *
      * @return Item
      */
-    public function setOwner(\AppBundle\Entity\User $owner = null)
+    public function setOwner(User $owner = null)
     {
         $this->owner = $owner;
 
@@ -361,7 +361,7 @@ class Item
     /**
      * Get owner
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getOwner()
     {
@@ -371,11 +371,11 @@ class Item
     /**
      * Set photo
      *
-     * @param \AppBundle\Entity\Photo $photo
+     * @param Photo $photo
      *
      * @return Item
      */
-    public function setPhoto(\AppBundle\Entity\Photo $photo = null)
+    public function setPhoto(Photo $photo = null)
     {
         $this->photo = $photo;
 
@@ -385,11 +385,10 @@ class Item
     /**
      * Get photo
      *
-     * @return \AppBundle\Entity\Photo
+     * @return Photo
      */
     public function getPhoto()
     {
         return $this->photo;
     }
 }
-

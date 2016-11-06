@@ -23,12 +23,12 @@ class Bid
     private $created;
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      */
     private $user;
 
     /**
-     * @var \AppBundle\Entity\Item
+     * @var Item
      */
     private $item;
 
@@ -94,11 +94,11 @@ class Bid
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return Bid
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -108,7 +108,7 @@ class Bid
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -118,11 +118,11 @@ class Bid
     /**
      * Set item
      *
-     * @param \AppBundle\Entity\Item $item
+     * @param Item $item
      *
      * @return Bid
      */
-    public function setItem(\AppBundle\Entity\Item $item = null)
+    public function setItem(Item $item = null)
     {
         $this->item = $item;
 
@@ -132,11 +132,10 @@ class Bid
     /**
      * Get item
      *
-     * @return \AppBundle\Entity\Item
+     * @return Item
      */
     public function getItem()
     {
         return $this->item;
     }
 }
-
