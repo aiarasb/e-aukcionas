@@ -6,10 +6,16 @@ use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Entity\Item;
 use AppBundle\Form\ItemType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
     public function addAction(Request $request)
     {
         $item = new Item();

@@ -62,3 +62,6 @@ AppBundle\Entity\Item:
         photos:
             targetEntity: Photo
             mappedBy: item
+        comments:
+            targetEntity: Comment
+            mappedBy: item

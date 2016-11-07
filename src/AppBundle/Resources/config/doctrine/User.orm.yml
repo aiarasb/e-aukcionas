@@ -39,3 +39,7 @@ AppBundle\Entity\User:
             type: datetime
         lastUpdated:
             type: datetime
+    oneToMany:
+        comments:
+            targetEntity: Comment
+            mappedBy: author

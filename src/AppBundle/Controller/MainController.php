@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Entity\Item;
+use AppBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -58,12 +59,20 @@ class MainController extends Controller
         /** @var Item $item */
         $item = $this->getRepository()->findOneBy(['id' => $id, 'status' => 'selling']);
         $user = $this->get('user_manager')->getUser();
+        $commentForm = $this->createForm(
+            CommentType::class,
+            null,
+            [
+                'action' => $this->generateUrl('add_comment', ['id' => $id])
+            ]
+        );
 
         return $this->render(
             'AppBundle:main:auction.html.twig',
             [
-                'item' => $item,
-                'user' => $user
+                'item'        => $item,
+                'user'        => $user,
+                'commentForm' => $commentForm->createView()
             ]
         );
     }

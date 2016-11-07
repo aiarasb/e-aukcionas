@@ -37,3 +37,7 @@ add_item:
 upload_photo:
     path: /{itemId}/upload_image
     defaults: { _controller: AppBundle:Photo:upload }
+
+add_comment:
+    path: /add_comment/{id}
+    defaults: { _controller: AppBundle:Comment:comment }

@@ -85,11 +85,17 @@ class Item
     private $buyer;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $comments;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -458,5 +464,39 @@ class Item
     public function getBuyer()
     {
         return $this->buyer;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param Comment $comment
+     *
+     * @return Item
+     */
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param Comment $comment
+     */
+    public function removeComment(Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

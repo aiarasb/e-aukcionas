@@ -2,6 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Entity\Comment;
+
 /**
  * CommentRepository
  *
@@ -10,4 +12,13 @@ namespace AppBundle\Doctrine\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function create(Comment $item)
+    {
+        $date = new \DateTime();
+        $item->setCreated($date);
+
+        $this->_em->persist($item);
+        $this->_em->flush();
+        $this->_em->clear();
+    }
 }

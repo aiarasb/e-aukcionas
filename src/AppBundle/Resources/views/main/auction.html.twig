@@ -40,7 +40,7 @@
                         <h4>Veiksmai</h4>
                     {% elseif user is not empty %}
                         <h4>Jūsų statymas</h4>
-                        <form class="form-inline" id="bid">
+                        <form class="form-inline" id="bidForm">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
                             </div>
@@ -48,7 +48,7 @@
                         </form>
                         {% if item.buyNowPrice > 0 %}
                             <h4>Pirkti dabar</h4>
-                            <form class="form-inline" id="bid">
+                            <form class="form-inline" id="buyNowForm">
                                 <input type="hidden" name="buyNow" value="1">
                                 <div>Kaina perkant iškart: {{ item.buyNowPrice }}
                                     <button type="submit" class="btn btn-primary">Pirkti</button>
@@ -58,8 +58,32 @@
                     {% endif %}
                 </div>
             </div>
-            <h3>Aprašymas</h3>
-            <p>{{ item.description }}</p>
+            <div>
+                <h3>Aprašymas</h3>
+                <p>{{ item.description }}</p>
+            </div>
+            <div>
+                <h3>Komentarai</h3>
+                {% if item.comments is not empty %}
+                    <div>
+                        {% for comment in item.comments %}
+                            <div>
+                                <h4>{{ comment.author.username }}</h4>
+                                {{ comment.comment }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div>
+                    {{ form_start(commentForm) }}
+                        <div class="form-group">
+                            <label for="comment">Komentuoti:</label>
+                            {{ form_widget(commentForm.comment, { 'attr': {'class': 'form-control', 'rows': '5' } }) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Komentuoti</button>
+                    {{ form_end(commentForm) }}
+                </div>
+            </div>
         {% else %}
             <h2>Aukcionas neegzistuoja</h2>
         {% endif %}
@@ -79,6 +103,20 @@
             $("#bid").on("submit", function (e) {
                 e.preventDefault();
                 window.confirm('Statymas (dar neveikia)');
+            });
+
+            $("#buyNowForm").on("submit", function (e) {
+                e.preventDefault();
+                window.confirm('Pirkimas (dar neveikia)');
+            });
+
+            $("#commentForm").on("submit", function (e) {
+                e.preventDefault();
+                if ($("#comment").val() != '') {
+                    console.log('ok');
+                } else {
+                    console.log('no');
+                }
             });
         });
     </script>
