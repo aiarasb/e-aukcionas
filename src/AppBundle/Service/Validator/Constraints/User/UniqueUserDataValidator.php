@@ -44,7 +44,7 @@ class UniqueUserDataValidator extends ConstraintValidator
         $duplicate = $this->managerRegistry->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
 
         if (null !== $duplicate) {
-            $this->addViolation('username');
+            $this->addViolation('vartotojo vardas');
         }
     }
 
@@ -53,7 +53,7 @@ class UniqueUserDataValidator extends ConstraintValidator
         $duplicate = $this->managerRegistry->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
 
         if (null !== $duplicate) {
-            $this->addViolation('email address');
+            $this->addViolation('el. pašto adresas');
         }
     }
 

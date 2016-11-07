@@ -1,0 +1,6 @@
+AppBundle\Entity\Item:
+    constraints:
+        - AppBundle\Service\Validator\Constraints\Item\ValidItemData: ~
+    properties:
+        name:
+            - NotBlank: ~

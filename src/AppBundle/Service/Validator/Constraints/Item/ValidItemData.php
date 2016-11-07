@@ -1,14 +1,11 @@
 <?php
 
-namespace AppBundle\Service\Validator\Constraints\User;
+namespace AppBundle\Service\Validator\Constraints\Item;
 
 use Symfony\Component\Validator\Constraint;
 
-class UniqueUserData extends Constraint
+class ValidItemData extends Constraint
 {
-    /** @var string */
-    public $message = 'Toks %field% jau egzistuoja.';
-
     /**
      * @inheritdoc
      */
