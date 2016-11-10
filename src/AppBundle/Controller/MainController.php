@@ -56,7 +56,7 @@ class MainController extends Controller
 
     /**
      * @param Request $request
-     * @param int      $id
+     * @param int     $id
      * @return Response
      */
     public function auctionAction(Request $request, $id)
@@ -75,7 +75,8 @@ class MainController extends Controller
         );
 
         if ($request->getMethod() == 'POST'
-            && $user->getId() != $item->getOwner()->getId()) {
+            && $user->getId() != $item->getOwner()->getId()
+        ) {
             $bidData = $request->request->get('bidForm');
             if (!empty($bidData['bid'])) {
                 $bidSum = $bidData['bid'];
@@ -99,7 +100,8 @@ class MainController extends Controller
                 'item'        => $item,
                 'user'        => $user,
                 'commentForm' => $commentForm->createView(),
-                'bidSuccess'  => $bidSuccess
+                'bidSuccess'  => $bidSuccess,
+                'timeleft'    => $this->getTimeLeft($item)
             ]
         );
     }
@@ -115,6 +117,40 @@ class MainController extends Controller
         /** @var BidRepository $bidRepository */
         $bidRepository = $this->getDoctrine()->getRepository('AppBundle:Bid');
         $bidRepository->create($bid);
+    }
+
+    /**
+     * @param Item $item
+     * @return string
+     */
+    private function getTimeLeft(Item $item)
+    {
+        $timeLeft = '';
+
+        if (null !== $item->getAuctionStart() && null !== $item->getAuctionEnd()) {
+            $left = $item->getAuctionEnd()->diff($item->getAuctionStart());
+
+            $intervalTime = [
+                'metai'         => $left->y,
+                'mėnesiai(-uo)' => $left->m,
+                'dienos(-a)'    => $left->d,
+                'valandos(-a)'  => $left->h,
+                'minutės(-ė)'   => $left->i,
+                'sekundės(-ė)'  => $left->s,
+            ];
+            $limit = 2;
+            foreach ($intervalTime as $key => $value) {
+                if ($value) {
+                    $timeLeft .= sprintf('%d %s ', $value, $key);
+                    $limit--;
+                }
+                if ($limit < 1) {
+                    break;
+                }
+            }
+        }
+
+        return $timeLeft;
     }
 
     /**

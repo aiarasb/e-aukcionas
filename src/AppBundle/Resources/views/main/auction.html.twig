@@ -4,6 +4,19 @@
     <div class="container">
         {% if item is defined and item is not null %}
             <h2>{{ item.name }}</h2>
+            {% if bidSuccess is not null %}
+                <div class="row">
+                    {% if bidSuccess == true %}
+                        <div class="bg-success message">
+                            Sėkmingai pastatyta!
+                        </div>
+                    {% else %}
+                        <div class="bg-danger message">
+                            Whoops, kažkas buvo už jus greitesnis! Statykite didesnę sumą.
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="col-md-8">
                     <div class="row" style="max-height:400px;overflow:hidden;">
@@ -28,6 +41,12 @@
                     {% endif %}
                 </div>
                 <div class="col-md-4">
+                    {% if timeleft is not empty %}
+                        <div>
+                            <h4>Iki aukciono pabaigos liko:</h4>
+                            <div class="h3">{{ timeleft }}</div>
+                        </div>
+                    {% endif %}
                     <div>
                         <h4>Pradinė kaina</h4>
                         <div class="h3">{{ item.basePrice }}</div>
@@ -45,15 +64,17 @@
                             <h4>Veiksmai</h4>
                         </div>
                     {% elseif user is not empty %}
-                        <div>
-                            <h4>Jūsų statymas</h4>
-                            <form method="post" class="form-inline" id="bidForm" name="bidForm">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="bidForm[bid]" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Statyti</button>
-                            </form>
-                        </div>
+                        {% if item.basePrice > 0 %}
+                            <div>
+                                <h4>Jūsų statymas</h4>
+                                <form method="post" class="form-inline" id="bidForm" name="bidForm">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="bidForm[bid]" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Statyti</button>
+                                </form>
+                            </div>
+                        {% endif %}
                         {% if item.buyNowPrice > 0 %}
                             <div>
                                 <h4>Kaina perkant iškart:</h4>
