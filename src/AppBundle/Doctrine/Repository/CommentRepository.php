@@ -12,6 +12,9 @@ use AppBundle\Entity\Comment;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Comment $item
+     */
     public function create(Comment $item)
     {
         $date = new \DateTime();

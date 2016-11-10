@@ -47,9 +47,9 @@
                     {% elseif user is not empty %}
                         <div>
                             <h4>Jūsų statymas</h4>
-                            <form class="form-inline" id="bidForm">
+                            <form method="post" class="form-inline" id="bidForm" name="bidForm">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
+                                    <input type="text" class="form-control" name="bidForm[bid]" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Statyti</button>
                             </form>
@@ -57,7 +57,7 @@
                         {% if item.buyNowPrice > 0 %}
                             <div>
                                 <h4>Kaina perkant iškart:</h4>
-                                <form class="form-inline" id="buyNowForm">
+                                <form class="form-inline" id="buyNowForm" name="buyNowForm">
                                     <input type="hidden" name="buyNow" value="1">
                                     <div>
                                         <div class="h3">{{ item.buyNowPrice }}</div>

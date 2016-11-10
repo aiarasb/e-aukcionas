@@ -12,6 +12,9 @@ use AppBundle\Entity\Item;
  */
 class ItemRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Item $item
+     */
     public function create(Item $item)
     {
         $date = new \DateTime();
@@ -24,10 +27,20 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
         $this->_em->clear();
     }
 
-    public function update(Item $item)
+    /**
+     * @param Item $item
+     * @param bool $flush
+     */
+    public function update(Item $item, $flush = true)
     {
+
+        $date = new \DateTime();
+        $item->setLastUpdated($date);
+
         $this->_em->persist($item);
-        $this->_em->flush();
-        $this->_em->clear();
+        if (true == $flush) {
+            $this->_em->flush();
+            $this->_em->clear();
+        }
     }
 }

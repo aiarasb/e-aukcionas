@@ -2,6 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Entity\Bid;
+
 /**
  * BidRepository
  *
@@ -10,4 +12,16 @@ namespace AppBundle\Doctrine\Repository;
  */
 class BidRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Bid $bid
+     */
+    public function create(Bid $bid)
+    {
+        $date = new \DateTime();
+        $bid->setCreated($date);
+
+        $this->_em->persist($bid);
+        $this->_em->flush();
+        $this->_em->clear();
+    }
 }

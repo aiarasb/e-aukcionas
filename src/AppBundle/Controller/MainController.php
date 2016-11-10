@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Doctrine\Repository\BidRepository;
 use AppBundle\Doctrine\Repository\ItemRepository;
+use AppBundle\Entity\Bid;
 use AppBundle\Entity\Item;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MainController extends Controller
@@ -51,13 +55,16 @@ class MainController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param Request $request
+     * @param int      $id
      * @return Response
      */
-    public function auctionAction($id)
+    public function auctionAction(Request $request, $id)
     {
+        $bidSuccess = null;
         /** @var Item $item */
         $item = $this->getRepository()->findOneBy(['id' => $id, 'status' => 'selling']);
+        /** @var User $user */
         $user = $this->get('user_manager')->getUser();
         $commentForm = $this->createForm(
             CommentType::class,
@@ -67,14 +74,47 @@ class MainController extends Controller
             ]
         );
 
+        if ($request->getMethod() == 'POST'
+            && $user->getId() != $item->getOwner()->getId()) {
+            $bidData = $request->request->get('bidForm');
+            if (!empty($bidData['bid'])) {
+                $bidSum = $bidData['bid'];
+                if ($bidSum > $item->getCurrentPrice()) {
+                    $item->setCurrentPrice($bidSum);
+                    $bid = new Bid();
+                    $bid->setItem($item);
+                    $bid->setUser($user);
+                    $bid->setSum($bidSum);
+                    $this->saveBid($bid, $item);
+                    $bidSuccess = true;
+                } else {
+                    $bidSuccess = false;
+                }
+            }
+        }
+
         return $this->render(
             'AppBundle:main:auction.html.twig',
             [
                 'item'        => $item,
                 'user'        => $user,
-                'commentForm' => $commentForm->createView()
+                'commentForm' => $commentForm->createView(),
+                'bidSuccess'  => $bidSuccess
             ]
         );
+    }
+
+    /**
+     * @param Bid  $bid
+     * @param Item $item
+     */
+    private function saveBid(Bid $bid, Item $item)
+    {
+        $itemRepository = $this->getRepository();
+        $itemRepository->update($item, false);
+        /** @var BidRepository $bidRepository */
+        $bidRepository = $this->getDoctrine()->getRepository('AppBundle:Bid');
+        $bidRepository->create($bid);
     }
 
     /**

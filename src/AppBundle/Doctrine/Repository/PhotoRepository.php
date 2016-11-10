@@ -12,6 +12,9 @@ use AppBundle\Entity\Photo;
  */
 class PhotoRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Photo $photo
+     */
     public function save(Photo $photo)
     {
         $this->_em->persist($photo);
