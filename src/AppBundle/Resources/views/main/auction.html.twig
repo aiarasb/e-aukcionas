@@ -28,32 +28,43 @@
                     {% endif %}
                 </div>
                 <div class="col-md-4">
-                    <h4>Pradinė kaina</h4>
-                    <div>{{ item.basePrice }}</div>
-                    <h4>Aukščiausias statymas</h4>
-                    {% if item.currentPrice is not null %}
-                        <div>{{ item.currentPrice }}</div>
-                    {% else %}
-                        <div>-</div>
-                    {% endif %}
+                    <div>
+                        <h4>Pradinė kaina</h4>
+                        <div class="h3">{{ item.basePrice }}</div>
+                    </div>
+                    <div>
+                        <h4>Aukščiausias statymas</h4>
+                        {% if item.currentPrice is not null %}
+                            <div class="h3">{{ item.currentPrice }}</div>
+                        {% else %}
+                            <div class="h3">-</div>
+                        {% endif %}
+                    </div>
                     {% if user is not empty and user.id == item.owner.id %}
-                        <h4>Veiksmai</h4>
+                        <div>
+                            <h4>Veiksmai</h4>
+                        </div>
                     {% elseif user is not empty %}
-                        <h4>Jūsų statymas</h4>
-                        <form class="form-inline" id="bidForm">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Statyti</button>
-                        </form>
-                        {% if item.buyNowPrice > 0 %}
-                            <h4>Pirkti dabar</h4>
-                            <form class="form-inline" id="buyNowForm">
-                                <input type="hidden" name="buyNow" value="1">
-                                <div>Kaina perkant iškart: {{ item.buyNowPrice }}
-                                    <button type="submit" class="btn btn-primary">Pirkti</button>
+                        <div>
+                            <h4>Jūsų statymas</h4>
+                            <form class="form-inline" id="bidForm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
                                 </div>
+                                <button type="submit" class="btn btn-primary">Statyti</button>
                             </form>
+                        </div>
+                        {% if item.buyNowPrice > 0 %}
+                            <div>
+                                <h4>Kaina perkant iškart:</h4>
+                                <form class="form-inline" id="buyNowForm">
+                                    <input type="hidden" name="buyNow" value="1">
+                                    <div>
+                                        <div class="h3">{{ item.buyNowPrice }}</div>
+                                        <button type="submit" class="btn btn-primary">Pirkti</button>
+                                    </div>
+                                </form>
+                            </div>
                         {% endif %}
                     {% endif %}
                 </div>
