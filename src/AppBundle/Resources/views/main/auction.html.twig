@@ -49,12 +49,12 @@
                     {% endif %}
                     <div>
                         <h4>Pradinė kaina</h4>
-                        <div class="h3">{{ item.basePrice }}</div>
+                        <div class="h3">{{ item.basePrice|number_format(2, '.', ',') }}</div>
                     </div>
                     <div>
                         <h4>Aukščiausias statymas</h4>
                         {% if item.currentPrice is not null %}
-                            <div class="h3">{{ item.currentPrice }}</div>
+                            <div class="h3">{{ item.currentPrice|number_format(2, '.', ',') }}</div>
                         {% else %}
                             <div class="h3">-</div>
                         {% endif %}

@@ -80,7 +80,7 @@ class MainController extends Controller
             $bidData = $request->request->get('bidForm');
             if (!empty($bidData['bid'])) {
                 $bidSum = $bidData['bid'];
-                if ($bidSum > $item->getCurrentPrice()) {
+                if ($bidSum > $item->getCurrentPrice() && $bidSum > $item->getBasePrice()) {
                     $item->setCurrentPrice($bidSum);
                     $bid = new Bid();
                     $bid->setItem($item);
