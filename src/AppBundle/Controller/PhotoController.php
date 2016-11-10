@@ -8,6 +8,7 @@ use AppBundle\Entity\Item;
 use AppBundle\Entity\Photo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,13 +17,18 @@ class PhotoController extends Controller
     /**
      * @param Request $request
      * @param integer $itemId
-     * @return Response
+     * @return RedirectResponse|Response
      */
     public function uploadAction(Request $request, $itemId)
     {
         $importDirectory = $this->getParameter('directory.import.images');
         /** @var Item $item */
         $item = $this->getDoctrine()->getRepository('AppBundle:Item')->findOneBy(['id' => $itemId]);
+
+
+        if ($this->get('user_manager')->getUser()->getId() != $item->getOwner()->getId()) {
+            return $this->redirectToRoute('index');
+        }
 
         $form = $this->createFormBuilder()
             ->add(

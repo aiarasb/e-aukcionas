@@ -33,7 +33,7 @@ class ItemController extends Controller
                 $this->getRepository()->create($item);
                 return $this->redirectToRoute('upload_photo', ['itemId' => $item->getId()]);
             } else {
-                $errors = $form->getErrors();
+                $errors = $form->getErrors(true, true);
             }
         }
 
