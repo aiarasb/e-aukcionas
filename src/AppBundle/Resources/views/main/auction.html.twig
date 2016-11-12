@@ -41,27 +41,34 @@
                     {% endif %}
                 </div>
                 <div class="col-md-4">
-                    {% if timeleft is not empty %}
+                    {% if item.basePrice > 0 %}
+                        {% if timeleft is not empty %}
+                            <div>
+                                <h4>Iki aukciono pabaigos liko:</h4>
+                                <div class="h3">{{ timeleft }}</div>
+                            </div>
+                        {% endif %}
                         <div>
-                            <h4>Iki aukciono pabaigos liko:</h4>
-                            <div class="h3">{{ timeleft }}</div>
+                            <h4>Pradinė kaina</h4>
+                            <div class="h3">{{ item.basePrice|number_format(2, '.', ',') }}</div>
+                        </div>
+                        <div>
+                            <h4>Aukščiausias statymas</h4>
+                            {% if item.currentPrice is not null %}
+                                <div class="h3">{{ item.currentPrice|number_format(2, '.', ',') }}</div>
+                            {% else %}
+                                <div class="h3">-</div>
+                            {% endif %}
                         </div>
                     {% endif %}
-                    <div>
-                        <h4>Pradinė kaina</h4>
-                        <div class="h3">{{ item.basePrice|number_format(2, '.', ',') }}</div>
-                    </div>
-                    <div>
-                        <h4>Aukščiausias statymas</h4>
-                        {% if item.currentPrice is not null %}
-                            <div class="h3">{{ item.currentPrice|number_format(2, '.', ',') }}</div>
-                        {% else %}
-                            <div class="h3">-</div>
-                        {% endif %}
-                    </div>
                     {% if user is not empty and user.id == item.owner.id %}
                         <div>
                             <h4>Veiksmai</h4>
+                            <div>
+                                <ul>
+                                    <li><a href="{{ path('upload_photo', {'itemId': item.id}) }}">Pridėti nuotruaką(-as)</a></li>
+                                </ul>
+                            </div>
                         </div>
                     {% elseif user is not empty %}
                         {% if item.basePrice > 0 %}
