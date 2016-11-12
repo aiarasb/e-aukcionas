@@ -30,9 +30,11 @@
                         </td>
                         <td>
                             {% if item.status == 'selling' %}
-                                Aukcionas vyksta
+                                Parduodama
+                            {% elseif item.status == 'sold' %}
+                                Parduota - pirkėjas {{ item.buyer.username }}
                             {% else %}
-                                Aukcionas pasibaigęs
+                                -
                             {% endif %}
                         </td>
                         <td>{{ item.basePrice }}</td>

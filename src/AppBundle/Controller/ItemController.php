@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Entity\Item;
+use AppBundle\Entity\User;
 use AppBundle\Form\ItemType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,6 +43,33 @@ class ItemController extends Controller
             [
                 'form' => $form->createView(),
                 'errors' => $errors
+            ]
+        );
+    }
+
+    /**
+     * @param int $itemId
+     * @return RedirectResponse|Response
+     */
+    public function buyAction($itemId)
+    {
+        /** @var Item $item */
+        $item = $this->getRepository()->find($itemId);
+        /** @var User $buyer */
+        $buyer = $this->get('user_manager')->getUser();
+
+        if (null === $item || null === $buyer) {
+            return $this->redirectToRoute('index');
+        }
+
+        $item->setStatus('sold');
+        $item->setBuyer($buyer);
+        $this->getRepository()->update($item);
+
+        return $this->render(
+            'AppBundle:item:sold.html.twig',
+            [
+                'item' => $item
             ]
         );
     }

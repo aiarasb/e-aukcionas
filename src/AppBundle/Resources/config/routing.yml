@@ -34,6 +34,10 @@ add_item:
     path: /add_item
     defaults: { _controller: AppBundle:Item:add }
 
+buy_item:
+    path: /buy_item/{itemId}
+    defaults: { _controller: AppBundle:Item:buy }
+
 upload_photo:
     path: /{itemId}/upload_image
     defaults: { _controller: AppBundle:Photo:upload }
