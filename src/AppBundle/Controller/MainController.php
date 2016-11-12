@@ -19,12 +19,7 @@ class MainController extends Controller
      */
     public function indexAction()
     {
-        $items = $this->getRepository()
-            ->findBy(
-                ['status' => 'selling'],
-                ['auctionEnd' => 'desc'],
-                4
-            );
+        $items = $this->getRepository()->getActive(4);
 
         return $this->render(
             'AppBundle:main:index.html.twig',
@@ -39,12 +34,7 @@ class MainController extends Controller
      */
     public function auctionsAction()
     {
-        $items = $this->getRepository()
-            ->findBy(
-                ['status' => 'selling'],
-                ['auctionEnd' => 'desc'],
-                20
-            );
+        $items = $this->getRepository()->getActive(20);
 
         return $this->render(
             'AppBundle:main:auctions.html.twig',

@@ -43,4 +43,29 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
             $this->_em->clear();
         }
     }
+
+    /**
+     * @param null|int $limit
+     * @return array
+     */
+    public function getActive($limit = null)
+    {
+        $now = new \DateTime();
+
+        $builder = $this->createQueryBuilder('item')
+            ->where('item.status = :status')
+            ->setParameter('status', 'selling')
+            ->setParameter('now', $now->format('Y-m-d H:i:s'))
+            ->orderBy('item.auctionEnd', 'asc');
+
+        $expr = $builder->expr()->andX('item.auctionStart <= :now', 'item.auctionEnd >= :now');
+        $expr = $builder->expr()->orX($expr, 'item.auctionStart IS NULL', 'item.auctionEnd IS NULL');
+        $builder->andWhere($expr);
+
+        if (null !== $limit) {
+            $builder->setMaxResults($limit);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

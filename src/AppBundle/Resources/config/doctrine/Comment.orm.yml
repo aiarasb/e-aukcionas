@@ -16,11 +16,13 @@ AppBundle\Entity\Comment:
     manyToOne:
         author:
             targetEntity: User
+            inversedBy: comments
             joinColumn:
                 name: authorId
                 referencedColumnName: id
         item:
             targetEntity: Item
+            inversedBy: comments
             joinColumn:
                 name: itemId
                 referencedColumnName: id
