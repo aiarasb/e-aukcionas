@@ -14,6 +14,7 @@ use AppBundle\Form\PasswordChangeType;
 use AppBundle\Form\RegisterType;
 use AppBundle\Service\User\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,27 +126,10 @@ class UserController extends Controller
 
         $passwordForm = $this->createForm(PasswordChangeType::class);
         $emailForm = $this->createForm(EmailChangeType::class);
-        $changeData = $this->createForm(ChangeUserDataType::class, $userManager->getUser());
+        $changeDataForm = $this->createForm(ChangeUserDataType::class, $userManager->getUser());
 
         if ('POST' === $request->getMethod()) {
-            if ($request->request->has($passwordForm->getName())) {
-                $passwordForm->handleRequest($request);
-                if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-                    $data = $passwordForm->getData();
-                    $message = $userManager->changePassword($data['oldPassword'], $data['newPassword']);
-                }
-            } elseif ($request->request->has($emailForm->getName())) {
-                $emailForm->handleRequest($request);
-                if ($emailForm->isSubmitted() && $emailForm->isValid()) {
-                    $data = $emailForm->getData();
-                    $message = $userManager->changeEmail($data['email']);
-                }
-            } elseif ($request->request->has($changeData->getName())) {
-                $changeData->handleRequest($request);
-                if ($changeData->isSubmitted() && $changeData->isValid()) {
-                    $message = $userManager->updateUser();
-                }
-            }
+            $message = $this->resolveSettingsPost($request, $userManager, $passwordForm, $emailForm, $changeDataForm);
         }
 
         return $this->render(
@@ -155,7 +139,10 @@ class UserController extends Controller
                 'message' => $message,
                 'passwordForm' => $passwordForm->createView(),
                 'emailForm' => $emailForm->createView(),
-                'changeDataForm' => $changeData->createView()
+                'changeDataForm' => $changeDataForm->createView(),
+                'items' => $this->getDoctrine()->getRepository('AppBundle:Item')->findAll(),
+                'newItems' => $this->getDoctrine()->getRepository('AppBundle:Item')->getNew(),
+                'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()
             ]
         );
     }
@@ -194,5 +181,37 @@ class UserController extends Controller
     private function getRepository()
     {
         return $this->getDoctrine()->getRepository('AppBundle:User');
+    }
+
+    /**
+     * @param Request $request
+     * @param UserManager $userManager
+     * @param Form $passwordForm
+     * @param Form $emailForm
+     * @param Form $changeDataForm
+     * @return mixed
+     */
+    private function resolveSettingsPost(Request $request, $userManager, $passwordForm, $emailForm, $changeDataForm)
+    {
+        $message = null;
+        if ($request->request->has($passwordForm->getName())) {
+            $passwordForm->handleRequest($request);
+            if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
+                $data = $passwordForm->getData();
+                $message = $userManager->changePassword($data['oldPassword'], $data['newPassword']);
+            }
+        } elseif ($request->request->has($emailForm->getName())) {
+            $emailForm->handleRequest($request);
+            if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+                $data = $emailForm->getData();
+                $message = $userManager->changeEmail($data['email']);
+            }
+        } elseif ($request->request->has($changeDataForm->getName())) {
+            $changeDataForm->handleRequest($request);
+            if ($changeDataForm->isSubmitted() && $changeDataForm->isValid()) {
+                $message = $userManager->updateUser();
+            }
+        }
+        return $message;
     }
 }

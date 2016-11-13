@@ -17,12 +17,12 @@
                     <li class="list-group-item"><a href="#" id="change-data">Redaguoti duomenis</a></li>
                     {% if user.role >= 3 %}
                         <li class="list-group-item"></li>
-                        <li class="list-group-item">Visų prekių sąrašas</li>
-                        <li class="list-group-item">Nepatvirtintų prekių sąrašas</li>
+                        <li class="list-group-item"><a href="#" id="all-items">Visų prekių sąrašas</a></li>
+                        <li class="list-group-item"><a href="#" id="new-items">Nepatvirtintų prekių sąrašas</a></li>
                     {% endif %}
                     {% if user.role >= 5 %}
                         <li class="list-group-item"></li>
-                        <li class="list-group-item">Vartotojų sąrašas</li>
+                        <li class="list-group-item"><a href="#" id="all-users">Vartotojų sąrašas</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -156,6 +156,124 @@
                     <button type="submit" class="btn btn-primary pull-right">Keisti</button>
                     {{ form_end(changeDataForm) }}
                 </div>
+                <div class="change-form" id="all-items-list" style="display: none;">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Pavadinimas</th>
+                            <th>Būsena</th>
+                            <th>Pradinė kaina</th>
+                            <th>Aukščiausias statymas</th>
+                            <th>Pirk dabar kaina</th>
+                            <th>Aukciono pradžia</th>
+                            <th>Aukciono pabaiga</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('auction', {'id': item.id}) }}">{{ item.name }}</a>
+                                </td>
+                                <td>
+                                    {% if item.status == 'selling' %}
+                                        Parduodama
+                                    {% elseif item.status == 'sold' %}
+                                        Parduota - pirkėjas {{ item.buyer.username }}
+                                    {% elseif item.status == 'finished' %}
+                                        Aukcionas pasibaigė be statymų
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.basePrice }}</td>
+                                <td>{{ item.currentPrice }}</td>
+                                <td>{{ item.buyNowPrice }}</td>
+                                <td>{% if item.auctionStart is not null %}{{ item.auctionStart|date("Y-m-d H:m:s") }}{% endif %}</td>
+                                <td>{% if item.auctionEnd is not null %}{{ item.auctionEnd|date("Y-m-d H:m:s") }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="change-form" id="new-items-list" style="display: none;">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Pavadinimas</th>
+                            <th>Būsena</th>
+                            <th>Pradinė kaina</th>
+                            <th>Aukščiausias statymas</th>
+                            <th>Pirk dabar kaina</th>
+                            <th>Aukciono pradžia</th>
+                            <th>Aukciono pabaiga</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in newItems %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('auction', {'id': item.id}) }}">{{ item.name }}</a>
+                                </td>
+                                <td>
+                                    {% if item.status == 'selling' %}
+                                        Parduodama
+                                    {% elseif item.status == 'sold' %}
+                                        Parduota - pirkėjas {{ item.buyer.username }}
+                                    {% elseif item.status == 'finished' %}
+                                        Aukcionas pasibaigė be statymų
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ item.basePrice }}</td>
+                                <td>{{ item.currentPrice }}</td>
+                                <td>{{ item.buyNowPrice }}</td>
+                                <td>{% if item.auctionStart is not null %}{{ item.auctionStart|date("Y-m-d H:m:s") }}{% endif %}</td>
+                                <td>{% if item.auctionEnd is not null %}{{ item.auctionEnd|date("Y-m-d H:m:s") }}{% endif %}</td>
+                                <td><a href="#">Patvirtinti</a><br><a href="#">Ištrinti</a> </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="change-form" id="all-users-list" style="display: none;">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Vartotojo vardas</th>
+                            <th>El. paštas</th>
+                            <th>Vardas</th>
+                            <th>Pavardė</th>
+                            <th>Adresas</th>
+                            <th>Tel. Nr.</th>
+                            <th>Miestas</th>
+                            <th>Rolė</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.firstName }}</td>
+                                <td>{{ user.lastName }}</td>
+                                <td>{{ user.address }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.city }}</td>
+                                <td>{{ user.role }}</td>
+                                <td>
+                                    {% if user.role < 5 %}
+                                        <a href="#">Ištrinti</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +300,24 @@
                 e.preventDefault();
                 $(".change-form").hide();
                 $("#change-data-form").show("fast");
+            });
+
+            $("#all-items").click(function (e) {
+                e.preventDefault();
+                $(".change-form").hide();
+                $("#all-items-list").show("fast");
+            });
+
+            $("#new-items").click(function (e) {
+                e.preventDefault();
+                $(".change-form").hide();
+                $("#new-items-list").show("fast");
+            });
+
+            $("#all-users").click(function (e) {
+                e.preventDefault();
+                $(".change-form").hide();
+                $("#all-users-list").show("fast");
             });
 
             $("#show-user-data").click(function (e) {
