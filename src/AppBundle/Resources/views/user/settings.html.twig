@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col-md-4">
                 <ul>
-                    <li><a href="#" id="change-password">Pakeisti slaptažodį</a></li>
-                    <li>Pakeisti El. pašto adresą</li>
+                    <li><a href="#" id="change-password">Keisti slaptažodį</a></li>
+                    <li><a href="#" id="change-email">Keisti El. pašto adresą</a></li>
                     <li>Redaguoti kontaktinius duomenis</li>
                     {% if user.role >= 3 %}
                         <li></li>
@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="col-md-8">
-                <div id="change-password-form" style="display:none;">
+                <div class="change-form" id="change-password-form" style="display: none;">
                     {{ form_start(passwordForm) }}
                         <div class="form-group">
                             <label for="comment">Senas slaptažodis:</label>
@@ -33,6 +33,15 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Keisti</button>
                     {{ form_end(passwordForm) }}
+                </div>
+                <div class="change-form" id="change-email-form" style="display: none;">
+                    {{ form_start(emailForm) }}
+                        <div class="form-group">
+                            <label for="comment">Naujas el. pašto adresas:</label>
+                            {{ form_widget(emailForm.email, { 'attr': {'class': 'form-control' } }) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Keisti</button>
+                    {{ form_end(emailForm) }}
                 </div>
             </div>
         </div>
@@ -46,7 +55,14 @@
         $(function () {
             $("#change-password").click(function (e) {
                 e.preventDefault();
+                $(".change-form").hide();
                 $("#change-password-form").show("fast");
+            });
+
+            $("#change-email").click(function (e) {
+                e.preventDefault();
+                $(".change-form").hide();
+                $("#change-email-form").show("fast");
             });
         });
     </script>

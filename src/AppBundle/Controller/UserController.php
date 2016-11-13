@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Doctrine\Repository\UserRepository;
 use AppBundle\Entity\Item;
 use AppBundle\Entity\User;
+use AppBundle\Form\EmailChangeType;
 use AppBundle\Form\LoginType;
 use AppBundle\Form\PasswordChangeType;
 use AppBundle\Form\RegisterType;
@@ -120,12 +121,18 @@ class UserController extends Controller
         }
 
         $passwordForm = $this->createForm(PasswordChangeType::class);
+        $emailForm = $this->createForm(EmailChangeType::class);
 
         if ('POST' === $request->getMethod()) {
             if ($request->request->has($passwordForm->getName())) {
                 $passwordForm->handleRequest($request);
                 if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
                     //TODO: change pass
+                }
+            } elseif ($request->request->has($emailForm->getName())) {
+                $emailForm->handleRequest($request);
+                if ($emailForm->isSubmitted() && $emailForm->isValid()) {
+                    //TODO: change email
                 }
             }
         }
@@ -134,7 +141,8 @@ class UserController extends Controller
             'AppBundle:user:settings.html.twig',
             [
                 'user' => $user,
-                'passwordForm' => $passwordForm->createView()
+                'passwordForm' => $passwordForm->createView(),
+                'emailForm' => $emailForm->createView()
             ]
         );
     }
