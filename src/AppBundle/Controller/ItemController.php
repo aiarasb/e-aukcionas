@@ -62,7 +62,7 @@ class ItemController extends Controller
             return $this->redirectToRoute('index');
         }
 
-        $item->setStatus('sold');
+        $item->setStatus(ItemRepository::STATUS_SOLD);
         $item->setBuyer($buyer);
         $this->getRepository()->update($item);
 

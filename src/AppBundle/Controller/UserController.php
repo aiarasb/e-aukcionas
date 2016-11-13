@@ -131,13 +131,13 @@ class UserController extends Controller
         foreach ($items as $key => $item) {
             if ($item->getAuctionEnd() !== null && $item->getAuctionEnd()->getTimestamp() < $now->getTimestamp()) {
                 if ($item->getCurrentPrice() > 0) {
-                    $item->setStatus('sold');
+                    $item->setStatus(ItemRepository::STATUS_SOLD);
                     /** @var BidRepository $bidRepository */
                     $bidRepository = $this->getDoctrine()->getRepository('AppBundle:Bid');
                     $buyer = $bidRepository->getHighestBidder($item);
                     $item->setBuyer($buyer);
                 } else {
-                    $item->setStatus('finished');
+                    $item->setStatus(ItemRepository::STATUS_FINISHED);
                 }
             }
             $items[$key] = $item;

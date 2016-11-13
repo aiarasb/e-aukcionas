@@ -12,6 +12,11 @@ use AppBundle\Entity\Item;
  */
 class ItemRepository extends \Doctrine\ORM\EntityRepository
 {
+    const STATUS_NEW = 'new';
+    const STATUS_SELLING = 'selling';
+    const STATUS_SOLD = 'sold';
+    const STATUS_FINISHED = 'finished';
+
     /**
      * @param Item $item
      */
@@ -20,7 +25,7 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
         $date = new \DateTime();
         $item->setCreated($date);
         $item->setLastUpdated($date);
-        $item->setStatus('selling');
+        $item->setStatus(static::STATUS_NEW);
 
         $this->_em->persist($item);
         $this->_em->flush();
@@ -67,13 +72,31 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
 
         $builder = $this->createQueryBuilder('item')
             ->where('item.status = :status')
-            ->setParameter('status', 'selling')
+            ->setParameter('status', static::STATUS_SELLING)
             ->setParameter('now', $now->format('Y-m-d H:i:s'))
-            ->orderBy('item.auctionEnd', 'asc');
+            ->orderBy('item.createDate', 'asc');
 
         $expr = $builder->expr()->andX('item.auctionStart <= :now', 'item.auctionEnd >= :now');
         $expr = $builder->expr()->orX($expr, 'item.auctionStart IS NULL', 'item.auctionEnd IS NULL');
         $builder->andWhere($expr);
+
+        if (null !== $limit) {
+            $builder->setMaxResults($limit);
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * @param null|int $limit
+     * @return array
+     */
+    public function getNew($limit = null)
+    {
+        $builder = $this->createQueryBuilder('item')
+            ->where('item.status = :status')
+            ->setParameter('status', static::STATUS_NEW)
+            ->orderBy('item.createDate', 'asc');
 
         if (null !== $limit) {
             $builder->setMaxResults($limit);
