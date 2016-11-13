@@ -12,6 +12,10 @@ use AppBundle\Entity\User;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    const ROLE_USER = 'user';
+    const ROLE_MODERATOR = 'moderator';
+    const ROLE_ADMIN = 'admin';
+
     /**
      * @param string $username
      * @param string $password
@@ -39,6 +43,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     public function register($user)
     {
         $user->setPassword(md5($user->getPassword()));
+        $user->setRole(static::ROLE_USER);
 
         $date = new \DateTime();
         $user->setCreated($date);
