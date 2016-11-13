@@ -70,6 +70,11 @@ class User
     private $comments;
 
     /**
+     * @var string
+     */
+    private $role;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -350,7 +355,6 @@ class User
     {
         $this->comments->removeElement($comment);
     }
-
     /**
      * Get comments
      *
@@ -359,5 +363,29 @@ class User
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 }

@@ -39,6 +39,9 @@ AppBundle\Entity\User:
             type: datetime
         lastUpdated:
             type: datetime
+        role:
+            type: string
+            length: 16
     oneToMany:
         comments:
             targetEntity: Comment
