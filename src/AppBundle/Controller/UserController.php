@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Doctrine\Repository\UserRepository;
 use AppBundle\Entity\Item;
 use AppBundle\Entity\User;
+use AppBundle\Form\ChangeUserDataType;
 use AppBundle\Form\EmailChangeType;
 use AppBundle\Form\LoginType;
 use AppBundle\Form\PasswordChangeType;
@@ -124,6 +125,7 @@ class UserController extends Controller
 
         $passwordForm = $this->createForm(PasswordChangeType::class);
         $emailForm = $this->createForm(EmailChangeType::class);
+        $changeData = $this->createForm(ChangeUserDataType::class, $userManager->getUser());
 
         if ('POST' === $request->getMethod()) {
             if ($request->request->has($passwordForm->getName())) {
@@ -138,6 +140,11 @@ class UserController extends Controller
                     $data = $emailForm->getData();
                     $message = $userManager->changeEmail($data['email']);
                 }
+            } elseif ($request->request->has($changeData->getName())) {
+                $changeData->handleRequest($request);
+                if ($changeData->isSubmitted() && $changeData->isValid()) {
+                    $message = $userManager->updateUser();
+                }
             }
         }
 
@@ -147,7 +154,8 @@ class UserController extends Controller
                 'user' => $userManager->getUser(),
                 'message' => $message,
                 'passwordForm' => $passwordForm->createView(),
-                'emailForm' => $emailForm->createView()
+                'emailForm' => $emailForm->createView(),
+                'changeDataForm' => $changeData->createView()
             ]
         );
     }

@@ -3,7 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class EmailChangeType extends AbstractType
@@ -13,7 +13,7 @@ class EmailChangeType extends AbstractType
         $builder
             ->add(
                 'email',
-                TextType::class
+                EmailType::class
             );
     }
 }

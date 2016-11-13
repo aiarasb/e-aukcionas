@@ -89,12 +89,12 @@ class UserManager {
      */
     public function changePassword($oldPassword, $newPassword)
     {
-        $message = 'Neteisingas senas slaptažodis';
+        $message = 'Neteisingas senas slaptažodis.';
         $user = $this->getUser();
         if (md5($oldPassword) == $user->getPassword()) {
             $user->setPassword(md5($newPassword));
             $this->getRepository()->update($user);
-            $message = 'Slaptažodis sėkmingai pakeistas';
+            $message = 'Slaptažodis sėkmingai pakeistas.';
         }
 
         return $message;
@@ -102,10 +102,22 @@ class UserManager {
 
     public function changeEmail($email)
     {
-        $message = 'El. paštas sėkmingai pakeistas';
+        $message = 'Naujas el. paštas turi skirtis nuo seno.';
         $user = $this->getUser();
-        $user->setEmail($email);
-        $this->getRepository()->update($user);
+
+        if ($user->getEmail() != $email) {
+            $user->setEmail($email);
+            $this->getRepository()->update($user);
+            $message = 'El. paštas sėkmingai pakeistas.';
+        }
+
+        return $message;
+    }
+
+    public function updateUser()
+    {
+        $message = 'Duomenys sėkmingai atnaujinti.';
+        $this->getRepository()->update($this->getUser());
 
         return $message;
     }
