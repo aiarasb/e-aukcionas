@@ -33,6 +33,8 @@
                                 Parduodama
                             {% elseif item.status == 'sold' %}
                                 Parduota - pirkėjas {{ item.buyer.username }}
+                            {% elseif item.status == 'finished' %}
+                                Aukcionas pasibaigė be statymų
                             {% else %}
                                 -
                             {% endif %}

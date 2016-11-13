@@ -45,6 +45,19 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param Item[] $items
+     */
+    public function updateArray($items)
+    {
+        foreach ($items as $item) {
+            $this->update($item, false);
+        }
+
+        $this->_em->flush();
+        $this->_em->clear();
+    }
+
+    /**
      * @param null|int $limit
      * @return array
      */

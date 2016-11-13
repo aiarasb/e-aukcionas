@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Doctrine\Repository\BidRepository;
 use AppBundle\Doctrine\Repository\ItemRepository;
 use AppBundle\Doctrine\Repository\UserRepository;
+use AppBundle\Entity\Item;
 use AppBundle\Entity\User;
 use AppBundle\Form\LoginType;
 use AppBundle\Form\RegisterType;
@@ -95,6 +97,7 @@ class UserController extends Controller
         $userManager = $this->get('user_manager');
 
         $items = $itemRepository->findBy(['owner' => $userManager->getUser()]);
+        $items = $this->resolveStatus($items);
 
         return $this->render(
             'AppBundle:user:items.html.twig',
@@ -107,6 +110,34 @@ class UserController extends Controller
     public function settingsAction()
     {
         return $this->redirectToRoute('index');
+    }
+
+    private function resolveStatus($items)
+    {
+        $now = new \DateTime();
+        /**
+         * @var Item $item
+         */
+        foreach ($items as $key => $item) {
+            if ($item->getAuctionEnd() !== null && $item->getAuctionEnd()->getTimestamp() < $now->getTimestamp()) {
+                if ($item->getCurrentPrice() > 0) {
+                    $item->setStatus('sold');
+                    /** @var BidRepository $bidRepository */
+                    $bidRepository = $this->getDoctrine()->getRepository('AppBundle:Bid');
+                    $buyer = $bidRepository->getHighestBidder($item);
+                    $item->setBuyer($buyer);
+                } else {
+                    $item->setStatus('finished');
+                }
+            }
+            $items[$key] = $item;
+        }
+
+        /** @var ItemRepository $itemRepository */
+        $itemRepository = $this->getDoctrine()->getRepository('AppBundle:Item');
+        $itemRepository->updateArray($items);
+
+        return $items;
     }
 
     /**
