@@ -115,8 +115,10 @@ class UserController extends Controller
      */
     public function settingsAction(Request $request)
     {
-        $user = $this->get('user_manager')->getUser();
-        if (null === $user) {
+        $message = null;
+        /** @var UserManager $userManager */
+        $userManager = $this->get('user_manager');
+        if (null === $userManager->getUser()) {
             return $this->redirect('login');
         }
 
@@ -127,12 +129,14 @@ class UserController extends Controller
             if ($request->request->has($passwordForm->getName())) {
                 $passwordForm->handleRequest($request);
                 if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-                    //TODO: change pass
+                    $data = $passwordForm->getData();
+                    $message = $userManager->changePassword($data['oldPassword'], $data['newPassword']);
                 }
             } elseif ($request->request->has($emailForm->getName())) {
                 $emailForm->handleRequest($request);
                 if ($emailForm->isSubmitted() && $emailForm->isValid()) {
-                    //TODO: change email
+                    $data = $emailForm->getData();
+                    $message = $userManager->changeEmail($data['email']);
                 }
             }
         }
@@ -140,7 +144,8 @@ class UserController extends Controller
         return $this->render(
             'AppBundle:user:settings.html.twig',
             [
-                'user' => $user,
+                'user' => $userManager->getUser(),
+                'message' => $message,
                 'passwordForm' => $passwordForm->createView(),
                 'emailForm' => $emailForm->createView()
             ]

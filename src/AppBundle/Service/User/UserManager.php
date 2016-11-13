@@ -83,6 +83,34 @@ class UserManager {
     }
 
     /**
+     * @param string $oldPassword
+     * @param string $newPassword
+     * @return string
+     */
+    public function changePassword($oldPassword, $newPassword)
+    {
+        $message = 'Neteisingas senas slaptažodis';
+        $user = $this->getUser();
+        if (md5($oldPassword) == $user->getPassword()) {
+            $user->setPassword(md5($newPassword));
+            $this->getRepository()->update($user);
+            $message = 'Slaptažodis sėkmingai pakeistas';
+        }
+
+        return $message;
+    }
+
+    public function changeEmail($email)
+    {
+        $message = 'El. paštas sėkmingai pakeistas';
+        $user = $this->getUser();
+        $user->setEmail($email);
+        $this->getRepository()->update($user);
+
+        return $message;
+    }
+
+    /**
      * @return UserRepository
      */
     private function getRepository()

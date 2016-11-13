@@ -73,4 +73,17 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
         return $loggedIn;
     }
+
+    /**
+     * @param User $user
+     */
+    public function update($user)
+    {
+        $date = new \DateTime();
+        $user->setLastUpdated($date);
+
+        $this->_em->persist($user);
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
+    }
 }
