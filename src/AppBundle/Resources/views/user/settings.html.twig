@@ -10,19 +10,19 @@
         {% endif %}
         <div class="row">
             <div class="col-md-4">
-                <ul>
-                    <li><a href="#" id="show-user-data">Mano duomenys</a></li>
-                    <li><a href="#" id="change-password">Keisti slaptažodį</a></li>
-                    <li><a href="#" id="change-email">Keisti El. pašto adresą</a></li>
-                    <li><a href="#" id="change-data">Redaguoti kontaktinius duomenis</a></li>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#" id="show-user-data">Mano duomenys</a></li>
+                    <li class="list-group-item"><a href="#" id="change-password">Keisti slaptažodį</a></li>
+                    <li class="list-group-item"><a href="#" id="change-email">Keisti El. pašto adresą</a></li>
+                    <li class="list-group-item"><a href="#" id="change-data">Redaguoti duomenis</a></li>
                     {% if user.role >= 3 %}
-                        <li></li>
-                        <li>Visų prekių sąrašas</li>
-                        <li>Nepatvirtintų prekių sąrašas</li>
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item">Visų prekių sąrašas</li>
+                        <li class="list-group-item">Nepatvirtintų prekių sąrašas</li>
                     {% endif %}
                     {% if user.role >= 5 %}
-                        <li></li>
-                        <li>Vartotojų sąrašas</li>
+                        <li class="list-group-item"></li>
+                        <li class="list-group-item">Vartotojų sąrašas</li>
                     {% endif %}
                 </ul>
             </div>
@@ -94,60 +94,66 @@
                     </div>
                 </div>
                 <div class="change-form" id="change-password-form" style="display: none;">
-                    {{ form_start(passwordForm) }}
+                    {{ form_start(passwordForm, { 'attr': {'class': 'form-horizontal'} }) }}
                         <div class="form-group">
-                            <label for="comment">Senas slaptažodis:</label>
-                            {{ form_widget(passwordForm.oldPassword, { 'attr': {'class': 'form-control' } }) }}
+                            <label class="col-xs-4 control-label">Senas slaptažodis:</label>
+                            <div class="col-xs-8">
+                                {{ form_widget(passwordForm.oldPassword, { 'attr': {'class': 'form-control' } }) }}
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="comment">Naujas slaptažodis:</label>
-                            {{ form_widget(passwordForm.newPassword, { 'attr': {'class': 'form-control' } }) }}
+                            <label class="col-xs-4 control-label">Naujas slaptažodis:</label>
+                            <div class="col-xs-8">
+                                {{ form_widget(passwordForm.newPassword, { 'attr': {'class': 'form-control' } }) }}
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Keisti</button>
+                        <button type="submit" class="btn btn-primary pull-right">Keisti</button>
                     {{ form_end(passwordForm) }}
                 </div>
                 <div class="change-form" id="change-email-form" style="display: none;">
-                    {{ form_start(emailForm) }}
+                    {{ form_start(emailForm, { 'attr': {'class': 'form-horizontal'} }) }}
                         <div class="form-group">
-                            <label for="comment">Naujas el. pašto adresas:</label>
-                            {{ form_widget(emailForm.email, { 'attr': {'class': 'form-control' } }) }}
+                            <label class="col-xs-4 control-label">Naujas el. pašto adresas:</label>
+                            <div class="col-xs-8">
+                                {{ form_widget(emailForm.email, { 'attr': {'class': 'form-control' } }) }}
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Keisti</button>
+                        <button type="submit" class="btn btn-primary pull-right">Keisti</button>
                     {{ form_end(emailForm) }}
                 </div>
                 <div class="change-form" id="change-data-form" style="display: none;">
-                    {{ form_start(changeDataForm, { 'attr': {'class': 'form-horizontal col-lg-6'} }) }}
+                    {{ form_start(changeDataForm, { 'attr': {'class': 'form-horizontal'} }) }}
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Vardas</label>
-                        <div class="col-sm-9">
+                        <label class="col-xs-4 control-label">Vardas</label>
+                        <div class="col-xs-8">
                             {{ form_widget(changeDataForm.firstName, { 'attr': {'class': 'form-control' } }) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Pavardė</label>
-                        <div class="col-sm-9">
+                        <label class="col-xs-4 control-label">Pavardė</label>
+                        <div class="col-xs-8">
                             {{ form_widget(changeDataForm.lastName, { 'attr': {'class': 'form-control' } }) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Adresas</label>
-                        <div class="col-sm-9">
+                        <label class="col-xs-4 control-label">Adresas</label>
+                        <div class="col-xs-8">
                             {{ form_widget(changeDataForm.address, { 'attr': {'class': 'form-control' } }) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Miestas</label>
-                        <div class="col-sm-9">
+                        <label class="col-xs-4 control-label">Miestas</label>
+                        <div class="col-xs-8">
                             {{ form_widget(changeDataForm.city, { 'attr': {'class': 'form-control' } }) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Telefono nr.</label>
-                        <div class="col-sm-9">
+                        <label class="col-xs-4 control-label">Telefono nr.</label>
+                        <div class="col-xs-8">
                             {{ form_widget(changeDataForm.phone, { 'attr': {'class': 'form-control' } }) }}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Keisti</button>
+                    <button type="submit" class="btn btn-primary pull-right">Keisti</button>
                     {{ form_end(changeDataForm) }}
                 </div>
             </div>
