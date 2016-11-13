@@ -135,15 +135,6 @@
                 var url = $(this).attr('src');
                 $("#big-img").attr('src', url);
             });
-
-            $("#commentForm").on("submit", function (e) {
-                e.preventDefault();
-                if ($("#comment").val() != '') {
-                    console.log('ok');
-                } else {
-                    console.log('no');
-                }
-            });
         });
     </script>
 

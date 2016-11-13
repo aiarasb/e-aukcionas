@@ -14,6 +14,12 @@ class UserManager {
     /** @var  Session */
     private $session;
 
+    /** @var  User */
+    private $user = null;
+
+    /** @var  bool */
+    private $loggedIn = null;
+
     /**
      * UserManager constructor.
      * @param EntityManager $entityManager
@@ -57,14 +63,11 @@ class UserManager {
      */
     public function getUser()
     {
-        $user = null;
-        if ($this->isLoggedIn()) {
-            $username = $this->session->get('username');
-            /** @var User $user */
-            $user = $this->getRepository()->findOneBy(['username' => $username]);
+        if (null === $this->loggedIn && null === $this->user) {
+            $this->resolveUser();
         }
 
-        return $user;
+        return $this->user;
     }
 
     /**
@@ -72,9 +75,11 @@ class UserManager {
      */
     public function isLoggedIn()
     {
-        $username = $this->session->get('username');
-        $loginToken = $this->session->get('loginToken');
-        return $this->getRepository()->isLoggedIn($username, $loginToken);
+        if (null === $this->loggedIn) {
+            $this->resolveUser();
+        }
+
+        return $this->loggedIn;
     }
 
     /**
@@ -83,5 +88,21 @@ class UserManager {
     private function getRepository()
     {
         return $this->entityManager->getRepository('AppBundle:User');
+    }
+
+    /**
+     * Resolve user
+     */
+    private function resolveUser()
+    {
+        $username = $this->session->get('username');
+        $loginToken = $this->session->get('loginToken');
+        /** @var User $user */
+        $this->user = $this->getRepository()->isLoggedIn($username, $loginToken);
+        if ($this->user === null) {
+            $this->loggedIn = false;
+        } else {
+            $this->loggedIn = true;
+        }
     }
 }

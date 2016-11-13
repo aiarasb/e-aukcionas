@@ -57,17 +57,17 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param string $username
      * @param string $loginToken
-     * @return bool
+     * @return User|null
      */
     public function isLoggedIn($username, $loginToken)
     {
-        $loggedIn = false;
+        $loggedIn = null;
         /** @var User $user */
         $user = $this->findOneBy(['username' => $username]);
         if (null !== $user) {
             $expectedToken = md5($user->getUsername().$user->getPassword());
             if ($expectedToken == $loginToken) {
-                $loggedIn = true;
+                $loggedIn = $user;
             }
         }
 

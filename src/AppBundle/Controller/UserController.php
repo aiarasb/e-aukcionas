@@ -8,6 +8,7 @@ use AppBundle\Doctrine\Repository\UserRepository;
 use AppBundle\Entity\Item;
 use AppBundle\Entity\User;
 use AppBundle\Form\LoginType;
+use AppBundle\Form\PasswordChangeType;
 use AppBundle\Form\RegisterType;
 use AppBundle\Service\User\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -107,17 +108,33 @@ class UserController extends Controller
         );
     }
 
-    public function settingsAction()
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function settingsAction(Request $request)
     {
         $user = $this->get('user_manager')->getUser();
         if (null === $user) {
             return $this->redirect('login');
         }
 
+        $passwordForm = $this->createForm(PasswordChangeType::class);
+
+        if ('POST' === $request->getMethod()) {
+            if ($request->request->has($passwordForm->getName())) {
+                $passwordForm->handleRequest($request);
+                if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
+                    //TODO: change pass
+                }
+            }
+        }
+
         return $this->render(
             'AppBundle:user:settings.html.twig',
             [
-                'user' => $user
+                'user' => $user,
+                'passwordForm' => $passwordForm->createView()
             ]
         );
     }

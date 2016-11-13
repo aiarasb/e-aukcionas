@@ -74,7 +74,7 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
             ->where('item.status = :status')
             ->setParameter('status', static::STATUS_SELLING)
             ->setParameter('now', $now->format('Y-m-d H:i:s'))
-            ->orderBy('item.createDate', 'asc');
+            ->orderBy('item.created', 'asc');
 
         $expr = $builder->expr()->andX('item.auctionStart <= :now', 'item.auctionEnd >= :now');
         $expr = $builder->expr()->orX($expr, 'item.auctionStart IS NULL', 'item.auctionEnd IS NULL');
@@ -96,7 +96,7 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
         $builder = $this->createQueryBuilder('item')
             ->where('item.status = :status')
             ->setParameter('status', static::STATUS_NEW)
-            ->orderBy('item.createDate', 'asc');
+            ->orderBy('item.created', 'asc');
 
         if (null !== $limit) {
             $builder->setMaxResults($limit);
