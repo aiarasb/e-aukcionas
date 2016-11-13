@@ -12,9 +12,9 @@ use AppBundle\Entity\User;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    const ROLE_USER = 'user';
-    const ROLE_MODERATOR = 'moderator';
-    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 1;
+    const ROLE_MODERATOR = 3;
+    const ROLE_ADMIN = 5;
 
     /**
      * @param string $username

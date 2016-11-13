@@ -109,7 +109,17 @@ class UserController extends Controller
 
     public function settingsAction()
     {
-        return $this->redirectToRoute('index');
+        $user = $this->get('user_manager')->getUser();
+        if (null === $user) {
+            return $this->redirect('login');
+        }
+
+        return $this->render(
+            'AppBundle:user:settings.html.twig',
+            [
+                'user' => $user
+            ]
+        );
     }
 
     private function resolveStatus($items)

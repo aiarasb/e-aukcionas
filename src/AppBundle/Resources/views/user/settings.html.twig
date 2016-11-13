@@ -1,0 +1,21 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2>Nustatymai</h2>
+        <ul>
+            <li>Pakeisti slaptaždį</li>
+            <li>Pakeisti El. pašto adresą</li>
+            <li>Redaguoti kontaktinius duomenis</li>
+            {% if user.role >= 3 %}
+                <li></li>
+                <li>Visų prekių sąrašas</li>
+                <li>Nepatvirtintų prekių sąrašas</li>
+            {% endif %}
+            {% if user.role >= 5 %}
+                <li></li>
+                <li>Vartotojų sąrašas</li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
