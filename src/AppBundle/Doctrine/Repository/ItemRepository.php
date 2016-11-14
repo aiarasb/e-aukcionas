@@ -16,6 +16,7 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
     const STATUS_SELLING = 'selling';
     const STATUS_SOLD = 'sold';
     const STATUS_FINISHED = 'finished';
+    const STATUS_BLOCKED = 'blocked';
 
     /**
      * @param Item $item

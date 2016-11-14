@@ -244,6 +244,24 @@ class UserController extends Controller
                 $user->setActive(true);
                 $this->getRepository()->update($user);
             }
+        } elseif ('confirmItem' == $action && $userManager->getUser()->getRole() >= UserRepository::ROLE_MODERATOR) {
+            /** @var ItemRepository $itemRepository */
+            $itemRepository = $this->getDoctrine()->getRepository('AppBundle:Item');
+            /** @var Item $item */
+            $item = $itemRepository->find($request->query->get('itemId'));
+            if (null !== $item) {
+                $item->setStatus(ItemRepository::STATUS_SELLING);
+                $itemRepository->update($item);
+            }
+        } elseif ('blockItem' == $action && $userManager->getUser()->getRole() >= UserRepository::ROLE_MODERATOR) {
+            /** @var ItemRepository $itemRepository */
+            $itemRepository = $this->getDoctrine()->getRepository('AppBundle:Item');
+            /** @var Item $item */
+            $item = $itemRepository->find($request->query->get('itemId'));
+            if (null !== $item) {
+                $item->setStatus(ItemRepository::STATUS_BLOCKED);
+                $itemRepository->update($item);
+            }
         }
     }
 }

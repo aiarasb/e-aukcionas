@@ -35,6 +35,10 @@
                                 Parduota - pirkėjas {{ item.buyer.username }}
                             {% elseif item.status == 'finished' %}
                                 Aukcionas pasibaigė be statymų
+                            {% elseif item.status == 'new' %}
+                                Laukiama patvirtinimo
+                            {% elseif item.status == 'blocked' %}
+                                Užblokuota
                             {% else %}
                                 -
                             {% endif %}

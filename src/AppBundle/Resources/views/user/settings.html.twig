@@ -232,7 +232,11 @@
                                 <td>{{ item.buyNowPrice }}</td>
                                 <td>{% if item.auctionStart is not null %}{{ item.auctionStart|date("Y-m-d H:m:s") }}{% endif %}</td>
                                 <td>{% if item.auctionEnd is not null %}{{ item.auctionEnd|date("Y-m-d H:m:s") }}{% endif %}</td>
-                                <td><a href="#">Patvirtinti</a><br><a href="#">Ištrinti</a> </td>
+                                <td>
+                                    <a href="{{ path('user_settings', {'action': 'confirmItem', 'itemId': item.id}) }}">Patvirtinti</a>
+                                    <br>
+                                    <a href="{{ path('user_settings', {'action': 'blockItem', 'itemId': item.id}) }}">Blokuoti</a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
