@@ -42,7 +42,7 @@
                 </div>
                 <div class="col-md-4">
                     {% if item.basePrice > 0 %}
-                        {% if timeleft is not empty %}
+                        {% if timeleft is not empty and item.status == 'selling' %}
                             <div>
                                 <h4>Iki aukciono pabaigos liko:</h4>
                                 <div class="h3">{{ timeleft }}</div>
@@ -70,7 +70,7 @@
                                 </ul>
                             </div>
                         </div>
-                    {% elseif user is not empty %}
+                    {% elseif user is not empty and item.status == 'selling' %}
                         {% if item.basePrice > 0 %}
                             <div>
                                 <h4>Jūsų statymas</h4>
@@ -91,6 +91,15 @@
                                 </div>
                             </div>
                         {% endif %}
+                    {% endif %}
+                    {% if item.status == 'new' %}
+                        <h4>Prekė dar neaktyvuota</h4>
+                    {% elseif item.status == 'sold' %}
+                        <h4>Prekė parduota</h4>
+                    {% elseif item.status == 'finished' %}
+                        <h4>Aukcionas baigėsi</h4>
+                    {% elseif item.status == 'blocked' %}
+                        <h4>Prekė buvo užblokuota</h4>
                     {% endif %}
                 </div>
             </div>

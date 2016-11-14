@@ -53,7 +53,7 @@ class MainController extends Controller
     {
         $bidSuccess = null;
         /** @var Item $item */
-        $item = $this->getRepository()->findOneBy(['id' => $id, 'status' => 'selling']);
+        $item = $this->getRepository()->findOneBy(['id' => $id]);
         /** @var User $user */
         $user = $this->get('user_manager')->getUser();
         $commentForm = $this->createForm(

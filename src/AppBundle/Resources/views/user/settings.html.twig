@@ -182,6 +182,10 @@
                                         Parduota - pirkėjas {{ item.buyer.username }}
                                     {% elseif item.status == 'finished' %}
                                         Aukcionas pasibaigė be statymų
+                                    {% elseif item.status == 'new' %}
+                                        Laukiama patvirtinimo
+                                    {% elseif item.status == 'blocked' %}
+                                        Užblokuota
                                     {% else %}
                                         -
                                     {% endif %}
@@ -223,6 +227,10 @@
                                         Parduota - pirkėjas {{ item.buyer.username }}
                                     {% elseif item.status == 'finished' %}
                                         Aukcionas pasibaigė be statymų
+                                    {% elseif item.status == 'new' %}
+                                        Laukiama patvirtinimo
+                                    {% elseif item.status == 'blocked' %}
+                                        Užblokuota
                                     {% else %}
                                         -
                                     {% endif %}
@@ -267,7 +275,17 @@
                                 <td>{{ user.address }}</td>
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.city }}</td>
-                                <td>{{ user.role }}</td>
+                                <td>
+                                    {% if user.role == 1 %}
+                                        Vartotojas
+                                    {% elseif user.role == 3 %}
+                                        Moderatorius
+                                    {% elseif user.role == 5 %}
+                                        Administratorius
+                                    {% else %}
+                                        {{ user.role }}
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if user.role < 5 %}
                                         {% if user.active %}
