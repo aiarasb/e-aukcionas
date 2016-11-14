@@ -117,18 +117,19 @@ class MainController extends Controller
     {
         $timeLeft = '';
 
-        if (null !== $item->getAuctionStart() && null !== $item->getAuctionEnd()) {
-            $left = $item->getAuctionEnd()->diff($item->getAuctionStart());
+        if (null !== $item->getAuctionEnd()) {
+            $now = new \DateTime();
+            $left = $item->getAuctionEnd()->diff($now);
 
             $intervalTime = [
-                'metai'         => $left->y,
-                'mėnesiai(-uo)' => $left->m,
-                'dienos(-a)'    => $left->d,
-                'valandos(-a)'  => $left->h,
-                'minutės(-ė)'   => $left->i,
-                'sekundės(-ė)'  => $left->s,
+                'm.'         => $left->y,
+                'mėn.' => $left->m,
+                'd.'    => $left->d,
+                'val.'  => $left->h,
+                'min.'   => $left->i,
+                's'  => $left->s,
             ];
-            $limit = 2;
+            $limit = 3;
             foreach ($intervalTime as $key => $value) {
                 if ($value) {
                     $timeLeft .= sprintf('%d %s ', $value, $key);
