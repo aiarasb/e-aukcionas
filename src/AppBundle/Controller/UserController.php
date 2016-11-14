@@ -129,10 +129,8 @@ class UserController extends Controller
         $changeDataForm = $this->createForm(ChangeUserDataType::class, $userManager->getUser());
 
         if (count($request->query)) {
-            $this->resolveSettingsQuery($request);
-        }
-
-        if ('POST' === $request->getMethod()) {
+            $message = $this->resolveSettingsQuery($request);
+        } elseif ('POST' === $request->getMethod()) {
             $message = $this->resolveSettingsPost($request, $passwordForm, $emailForm, $changeDataForm);
         }
 
@@ -192,7 +190,7 @@ class UserController extends Controller
      * @param Form $passwordForm
      * @param Form $emailForm
      * @param Form $changeDataForm
-     * @return mixed
+     * @return string|null
      */
     private function resolveSettingsPost(Request $request, $passwordForm, $emailForm, $changeDataForm)
     {
@@ -223,12 +221,14 @@ class UserController extends Controller
 
     /**
      * @param Request $request
+     * @return string|null
      */
     private function resolveSettingsQuery(Request $request)
     {
         /** @var UserManager $userManager */
         $userManager = $this->get('user_manager');
         $action = $request->query->get('action');
+        $message = null;
 
         if ('deactivateUser' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
             /** @var User $user */
@@ -236,6 +236,7 @@ class UserController extends Controller
             if (null !== $user) {
                 $user->setActive(false);
                 $this->getRepository()->update($user);
+                $message = 'Vartotojas '.$user->getUsername().' deaktyvuotas.';
             }
         } elseif ('activateUser' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
             /** @var User $user */
@@ -243,6 +244,7 @@ class UserController extends Controller
             if (null !== $user) {
                 $user->setActive(true);
                 $this->getRepository()->update($user);
+                $message = 'Vartotojas '.$user->getUsername().' aktyvuotas.';
             }
         } elseif ('confirmItem' == $action && $userManager->getUser()->getRole() >= UserRepository::ROLE_MODERATOR) {
             /** @var ItemRepository $itemRepository */
@@ -252,6 +254,7 @@ class UserController extends Controller
             if (null !== $item) {
                 $item->setStatus(ItemRepository::STATUS_SELLING);
                 $itemRepository->update($item);
+                $message = 'Prekė patvirtinta.';
             }
         } elseif ('blockItem' == $action && $userManager->getUser()->getRole() >= UserRepository::ROLE_MODERATOR) {
             /** @var ItemRepository $itemRepository */
@@ -261,7 +264,10 @@ class UserController extends Controller
             if (null !== $item) {
                 $item->setStatus(ItemRepository::STATUS_BLOCKED);
                 $itemRepository->update($item);
+                $message = 'Prekė užblokuota.';
             }
         }
+
+        return $message;
     }
 }
