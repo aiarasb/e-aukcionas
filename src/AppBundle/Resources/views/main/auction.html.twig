@@ -19,11 +19,11 @@
             {% endif %}
             <div class="row">
                 <div class="col-md-8">
-                    <div class="row" style="max-height:400px;overflow:hidden;">
+                    <div class="row" style="height:400px;overflow:hidden;">
                         {% if item.photo is defined and item.photo is not null %}
-                            <img id="big-img" class="img-responsive" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
+                            <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
                         {% else %}
-                            <img id="big-img" class="img-responsive" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                            <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
                         {% endif %}
                     </div>
                     {% if item.photos is defined and item.photos is not null %}
