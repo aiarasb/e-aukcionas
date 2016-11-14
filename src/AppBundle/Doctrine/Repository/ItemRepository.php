@@ -72,7 +72,9 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
         $now = new \DateTime();
 
         $builder = $this->createQueryBuilder('item')
+            ->leftJoin('item.owner', 'owner')
             ->where('item.status = :status')
+            ->andWhere('owner.active = 1')
             ->setParameter('status', static::STATUS_SELLING)
             ->setParameter('now', $now->format('Y-m-d H:i:s'))
             ->orderBy('item.created', 'asc');
