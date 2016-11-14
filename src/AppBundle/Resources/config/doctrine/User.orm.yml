@@ -42,6 +42,9 @@ AppBundle\Entity\User:
         role:
             type: string
             length: 16
+        active:
+            type: boolean
+            default: true
     oneToMany:
         comments:
             targetEntity: Comment

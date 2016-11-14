@@ -266,7 +266,11 @@
                                 <td>{{ user.role }}</td>
                                 <td>
                                     {% if user.role < 5 %}
-                                        <a href="#">Ištrinti</a>
+                                        {% if user.active %}
+                                            <a href="{{ path('user_settings', {'action': 'deactivateUser', 'userId': user.id}) }}">Deaktyvuoti</a>
+                                        {% else %}
+                                            <a href="{{ path('user_settings', {'action': 'activateUser', 'userId': user.id}) }}">Aktyvuoti</a>
+                                        {% endif %}
                                     {% endif %}
                                 </td>
                             </tr>

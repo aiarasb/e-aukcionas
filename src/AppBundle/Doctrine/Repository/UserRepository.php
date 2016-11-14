@@ -25,7 +25,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     {
         $exists = false;
         /** @var User $user */
-        $user = $this->findOneBy(['username' => $username]);
+        $user = $this->findOneBy(['username' => $username, 'active' => true]);
 
         if (null !== $user) {
             $password = md5($password);
@@ -44,6 +44,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     {
         $user->setPassword(md5($user->getPassword()));
         $user->setRole(static::ROLE_USER);
+        $user->setActive(true);
 
         $date = new \DateTime();
         $user->setCreated($date);
@@ -63,7 +64,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     {
         $loggedIn = null;
         /** @var User $user */
-        $user = $this->findOneBy(['username' => $username]);
+        $user = $this->findOneBy(['username' => $username, 'active' => true]);
         if (null !== $user) {
             $expectedToken = md5($user->getUsername().$user->getPassword());
             if ($expectedToken == $loginToken) {

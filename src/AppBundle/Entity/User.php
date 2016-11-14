@@ -75,6 +75,11 @@ class User
     private $role;
 
     /**
+     * @var boolean
+     */
+    private $active = true;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -345,7 +350,6 @@ class User
 
         return $this;
     }
-
     /**
      * Remove comment
      *
@@ -355,6 +359,7 @@ class User
     {
         $this->comments->removeElement($comment);
     }
+
     /**
      * Get comments
      *
@@ -378,7 +383,6 @@ class User
 
         return $this;
     }
-
     /**
      * Get role
      *
@@ -387,5 +391,43 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return User
+     */
+    public function setActive($active)
+    {
+        if ($active === null) {
+            $this->active = false;
+        } else {
+            $this->active = $active;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
     }
 }

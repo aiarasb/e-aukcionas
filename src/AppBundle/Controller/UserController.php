@@ -128,8 +128,12 @@ class UserController extends Controller
         $emailForm = $this->createForm(EmailChangeType::class);
         $changeDataForm = $this->createForm(ChangeUserDataType::class, $userManager->getUser());
 
+        if (count($request->query)) {
+            $this->resolveSettingsQuery($request);
+        }
+
         if ('POST' === $request->getMethod()) {
-            $message = $this->resolveSettingsPost($request, $userManager, $passwordForm, $emailForm, $changeDataForm);
+            $message = $this->resolveSettingsPost($request, $passwordForm, $emailForm, $changeDataForm);
         }
 
         return $this->render(
@@ -185,15 +189,17 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @param UserManager $userManager
      * @param Form $passwordForm
      * @param Form $emailForm
      * @param Form $changeDataForm
      * @return mixed
      */
-    private function resolveSettingsPost(Request $request, $userManager, $passwordForm, $emailForm, $changeDataForm)
+    private function resolveSettingsPost(Request $request, $passwordForm, $emailForm, $changeDataForm)
     {
+        /** @var UserManager $userManager */
+        $userManager = $this->get('user_manager');
         $message = null;
+
         if ($request->request->has($passwordForm->getName())) {
             $passwordForm->handleRequest($request);
             if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
@@ -213,5 +219,31 @@ class UserController extends Controller
             }
         }
         return $message;
+    }
+
+    /**
+     * @param Request $request
+     */
+    private function resolveSettingsQuery(Request $request)
+    {
+        /** @var UserManager $userManager */
+        $userManager = $this->get('user_manager');
+        $action = $request->query->get('action');
+
+        if ('deactivateUser' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
+            /** @var User $user */
+            $user = $this->getRepository()->find($request->query->get('userId'));
+            if (null !== $user) {
+                $user->setActive(false);
+                $this->getRepository()->update($user);
+            }
+        } elseif ('activateUser' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
+            /** @var User $user */
+            $user = $this->getRepository()->find($request->query->get('userId'));
+            if (null !== $user) {
+                $user->setActive(true);
+                $this->getRepository()->update($user);
+            }
+        }
     }
 }
