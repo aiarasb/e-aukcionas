@@ -246,6 +246,22 @@ class UserController extends Controller
                 $this->getRepository()->update($user);
                 $message = 'Vartotojas '.$user->getUsername().' aktyvuotas.';
             }
+        } elseif ('setUserModerator' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
+            /** @var User $user */
+            $user = $this->getRepository()->find($request->query->get('userId'));
+            if (null !== $user) {
+                $user->setRole(UserRepository::ROLE_MODERATOR);
+                $this->getRepository()->update($user);
+                $message = 'Vartotojui '.$user->getUsername().' suteiktos moderatoriaus teisės.';
+            }
+        } elseif ('unsetUserModerator' == $action && $userManager->getUser()->getRole() == UserRepository::ROLE_ADMIN) {
+            /** @var User $user */
+            $user = $this->getRepository()->find($request->query->get('userId'));
+            if (null !== $user) {
+                $user->setRole(UserRepository::ROLE_USER);
+                $this->getRepository()->update($user);
+                $message = 'Vartotojui '.$user->getUsername().' atimtos moderatoriaus teisės.';
+            }
         } elseif ('confirmItem' == $action && $userManager->getUser()->getRole() >= UserRepository::ROLE_MODERATOR) {
             /** @var ItemRepository $itemRepository */
             $itemRepository = $this->getDoctrine()->getRepository('AppBundle:Item');
