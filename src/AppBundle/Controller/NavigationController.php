@@ -15,6 +15,7 @@ class NavigationController extends Controller
         return $this->render(
             'AppBundle:navbar:userNavBar.html.twig',
             [
+                'user' => $this->get('user_manager')->getUser(),
                 'loggedIn' => $this->get('user_manager')->isLoggedIn()
             ]
         );
