@@ -2,6 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Entity\Rating;
+
 /**
  * RatingRepository
  *
@@ -10,4 +12,13 @@ namespace AppBundle\Doctrine\Repository;
  */
 class RatingRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Rating $rating
+     */
+    public function create(Rating $rating)
+    {
+        $this->_em->persist($rating);
+        $this->_em->flush();
+        $this->_em->clear();
+    }
 }

@@ -80,6 +80,11 @@ class User
     private $active = true;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $ratings;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -336,7 +341,6 @@ class User
     {
         return $this->lastUpdated;
     }
-
     /**
      * Add comment
      *
@@ -350,6 +354,7 @@ class User
 
         return $this;
     }
+
     /**
      * Remove comment
      *
@@ -369,7 +374,6 @@ class User
     {
         return $this->comments;
     }
-
     /**
      * Set role
      *
@@ -383,6 +387,7 @@ class User
 
         return $this;
     }
+
     /**
      * Get role
      *
@@ -420,7 +425,6 @@ class User
     {
         return $this->active;
     }
-
     /**
      * Get active
      *
@@ -429,5 +433,39 @@ class User
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Add rating
+     *
+     * @param Rating $rating
+     *
+     * @return User
+     */
+    public function addRating(Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param Rating $rating
+     */
+    public function removeRating(Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
     }
 }

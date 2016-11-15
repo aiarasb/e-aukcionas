@@ -1,0 +1,11 @@
+AppBundle\Entity\Rating:
+    properties:
+        rate:
+            - NotNull:
+                message: 'Įveskite vartinimą.'
+            - GreaterThan:
+                value: 0
+                message: 'Vertinimas turi būti didesnis už nulį.'
+            - LessThanOrEqual:
+                value: 5
+                message: 'Vertinimas turi būti mažesnis arba lygus penkiems.'

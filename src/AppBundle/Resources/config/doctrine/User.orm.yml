@@ -49,3 +49,6 @@ AppBundle\Entity\User:
         comments:
             targetEntity: Comment
             mappedBy: author
+        ratings:
+            targetEntity: Rating
+            mappedBy: receiver

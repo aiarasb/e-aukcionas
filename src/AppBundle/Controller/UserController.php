@@ -4,13 +4,16 @@ namespace AppBundle\Controller;
 
 use AppBundle\Doctrine\Repository\BidRepository;
 use AppBundle\Doctrine\Repository\ItemRepository;
+use AppBundle\Doctrine\Repository\RatingRepository;
 use AppBundle\Doctrine\Repository\UserRepository;
 use AppBundle\Entity\Item;
+use AppBundle\Entity\Rating;
 use AppBundle\Entity\User;
 use AppBundle\Form\ChangeUserDataType;
 use AppBundle\Form\EmailChangeType;
 use AppBundle\Form\LoginType;
 use AppBundle\Form\PasswordChangeType;
+use AppBundle\Form\RatingType;
 use AppBundle\Form\RegisterType;
 use AppBundle\Service\User\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -145,6 +148,36 @@ class UserController extends Controller
                 'items' => $this->getDoctrine()->getRepository('AppBundle:Item')->findAll(),
                 'newItems' => $this->getDoctrine()->getRepository('AppBundle:Item')->getNew(),
                 'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $username
+     * @return Response
+     */
+    public function showUserAction(Request $request, $username)
+    {
+        $user = $this->getRepository()->findOneBy(['username'=>$username]);
+        $rating = new Rating();
+        $ratingForm = $this->createForm(RatingType::class, $rating);
+        $ratingForm->handleRequest($request);
+
+        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+            $rating->setAuthor($this->get('user_manager')->getUser());
+            $rating->setReceiver($user);
+            /** @var RatingRepository $ratingRepository */
+            $ratingRepository = $this->getDoctrine()->getRepository('AppBundle:Rating');
+            $ratingRepository->create($rating);
+        }
+
+
+        return $this->render(
+            'AppBundle:user:show.html.twig',
+            [
+                'user' => $user,
+                'ratingForm' => $ratingForm->createView()
             ]
         );
     }

@@ -89,7 +89,15 @@
                             Rolė
                         </div>
                         <div class="col-xs-8">
-                            {{ user.role }}
+                            {% if user.role == 1 %}
+                                Vartotojas
+                            {% elseif user.role == 3 %}
+                                Moderatorius
+                            {% elseif user.role == 5 %}
+                                Administratorius
+                            {% else %}
+                                {{ user.role }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,10 @@ register:
     path: /register
     defaults: { _controller: AppBundle:User:register }
 
+user_show:
+    path: /user/{username}
+    defaults: { _controller: AppBundle:User:showUser }
+
 user_items:
     path: /my_items
     defaults: { _controller: AppBundle:User:items }
