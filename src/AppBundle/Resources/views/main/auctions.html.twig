@@ -9,14 +9,20 @@
                     </div>
                     <div class="row">
                 {% endif %}
-                <div class="col-md-3">
-                    {% if item.photo is defined and item.photo is not null %}
-                        <img class="img-responsive center-block" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
-                    {% else %}
-                        <img class="img-responsive center-block" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
-                    {% endif %}
-                    <a href="{{ path('auction', { 'id': item.id }) }}" ><h4 class="text-center">{{ item.name }}</h4></a>
-                </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {% if item.photo is defined and item.photo is not null %}
+                                    <img class="img-responsive center-block" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
+                                {% else %}
+                                    <img class="img-responsive center-block" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                                {% endif %}
+                            </div>
+                            <div class="panel-footer">
+                                <a href="{{ path('auction', { 'id': item.id }) }}" ><h4 class="text-center">{{ item.name }}</h4></a>
+                            </div>
+                        </div>
+                    </div>
             {% endfor %}
         </div>
     </div>

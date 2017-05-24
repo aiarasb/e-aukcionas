@@ -5,136 +5,170 @@
         {% if item is defined and item is not null %}
             <h2>{{ item.name }}</h2>
             {% if bidSuccess is not null %}
-                <div class="row">
-                    {% if bidSuccess == true %}
-                        <div class="bg-success message">
-                            Sėkmingai pastatyta!
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            {% if bidSuccess == true %}
+                                <div class="bg-success message">
+                                    Sėkmingai pastatyta!
+                                </div>
+                            {% else %}
+                                <div class="bg-danger message">
+                                    Whoops, kažkas buvo už jus greitesnis! Statykite didesnę sumą.
+                                </div>
+                            {% endif %}
                         </div>
-                    {% else %}
-                        <div class="bg-danger message">
-                            Whoops, kažkas buvo už jus greitesnis! Statykite didesnę sumą.
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             {% endif %}
             <div class="row">
                 <div class="col-md-8">
-                    <div class="row" style="height:400px;overflow:hidden;">
-                        {% if item.photo is defined and item.photo is not null %}
-                            <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;" src="{{ asset('uploads/images/' ~ item.photo.name) }}">
-                        {% else %}
-                            <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
-                        {% endif %}
-                    </div>
-                    {% if item.photos is defined and item.photos is not null %}
-                        <div class="row" style="padding-top:15px;padding-bottom:15px;">
-                            {% for photo in item.photos %}
-                                <div class="col-sm-2">
-                                    {% if photo is not null %}
-                                        <img class="img-responsive thumb-img" src="{{ asset('uploads/images/' ~ photo.name) }}">
-                                    {% else %}
-                                        <img class="img-responsive" src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="col-md-4">
-                    <div>
-                        <h4>Aukcioną įkėlė:</h4>
-                        <div class="h3"><a href="{{ path('user_show', {'username':item.owner.username}) }}">{{ item.owner.username }}</a></div>
-                    </div>
-                    {% if item.basePrice > 0 %}
-                        {% if timeleft is not empty and item.status == 'selling' %}
-                            <div>
-                                <h4>Iki aukciono pabaigos liko:</h4>
-                                <div class="h3">{{ timeleft }}</div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row" style="height:400px;overflow:hidden;">
+                                {% if item.photo is defined and item.photo is not null %}
+                                    <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;"
+                                         src="{{ asset('uploads/images/' ~ item.photo.name) }}">
+                                {% else %}
+                                    <img id="big-img" class="img-responsive" style="max-width:100%;max-height:100%;"
+                                         src="{{ asset('assets/img/noimg.jpg') }}" alt="No Img">
+                                {% endif %}
                             </div>
-                        {% endif %}
-                        <div>
-                            <h4>Pradinė kaina</h4>
-                            <div class="h3">{{ item.basePrice|number_format(2, '.', ',') }}</div>
+                            {% if item.photos is defined and item.photos is not null %}
                         </div>
-                        <div>
-                            <h4>Aukščiausias statymas</h4>
-                            {% if item.currentPrice is not null %}
-                                <div class="h3">{{ item.currentPrice|number_format(2, '.', ',') }}</div>
-                            {% else %}
-                                <div class="h3">-</div>
+                        <div class="panel-footer">
+                            <div class="row" style="padding-top:15px;padding-bottom:15px;">
+                                {% for photo in item.photos %}
+                                    <div class="col-sm-2">
+                                        {% if photo is not null %}
+                                            <img class="img-responsive thumb-img"
+                                                 src="{{ asset('uploads/images/' ~ photo.name) }}">
+                                        {% else %}
+                                            <img class="img-responsive" src="{{ asset('assets/img/noimg.jpg') }}"
+                                                 alt="No Img">
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
                             {% endif %}
                         </div>
-                    {% endif %}
-                    {% if user is not empty and user.id == item.owner.id %}
-                        <div>
-                            <h4>Veiksmai</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
                             <div>
-                                <ul>
-                                    <li><a href="{{ path('upload_photo', {'itemId': item.id}) }}">Pridėti nuotruaką(-as)</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    {% elseif user is not empty and item.status == 'selling' %}
-                        {% if item.basePrice > 0 %}
-                            <div>
-                                <h4>Jūsų statymas</h4>
-                                <form method="post" class="form-inline" id="bidForm" name="bidForm">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="bidForm[bid]" placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Statyti</button>
-                                </form>
-                            </div>
-                        {% endif %}
-                        {% if item.buyNowPrice > 0 %}
-                            <div>
-                                <h4>Kaina perkant iškart:</h4>
-                                <div>
-                                    <div class="h3">{{ item.buyNowPrice }}</div>
-                                    <a href="{{ path('buy_item', {'itemId': item.id}) }}"><button class="btn btn-primary">Pirkti</button></a>
+                                <h4>Aukcioną įkėlė:</h4>
+                                <div class="h3"><a
+                                            href="{{ path('user_show', {'username':item.owner.username}) }}">{{ item.owner.username }}</a>
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endif %}
-                    {% if item.status == 'new' %}
-                        <h4>Prekė dar nepatvirtinta</h4>
-                    {% elseif item.status == 'sold' %}
-                        <h4>Prekė parduota</h4>
-                    {% elseif item.status == 'finished' %}
-                        <h4>Aukcionas baigėsi</h4>
-                    {% elseif item.status == 'blocked' %}
-                        <h4>Prekė buvo užblokuota</h4>
-                    {% endif %}
+                            {% if item.basePrice > 0 %}
+                                {% if timeleft is not empty and item.status == 'selling' %}
+                                    <div>
+                                        <h4>Iki aukciono pabaigos liko:</h4>
+                                        <div class="h3">{{ timeleft }}</div>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <h4>Pradinė kaina</h4>
+                                    <div class="h3">{{ item.basePrice|number_format(2, '.', ',') }}</div>
+                                </div>
+                                <div>
+                                    <h4>Aukščiausias statymas</h4>
+                                    {% if item.currentPrice is not null %}
+                                        <div class="h3">{{ item.currentPrice|number_format(2, '.', ',') }}</div>
+                                    {% else %}
+                                        <div class="h3">-</div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% if user is not empty and user.id == item.owner.id %}
+                                <div>
+                                    <h4>Veiksmai</h4>
+                                    <div>
+                                        <ul>
+                                            <li><a href="{{ path('upload_photo', {'itemId': item.id}) }}">Pridėti
+                                                    nuotrauką(-as)</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% elseif user is not empty and item.status == 'selling' %}
+                                {% if item.basePrice > 0 %}
+                                    <div>
+                                        <h4>Jūsų statymas</h4>
+                                        <form method="post" class="form-inline" id="bidForm" name="bidForm">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="bidForm[bid]"
+                                                       placeholder="{{ (item.currentPrice+1)|number_format(2, '.', ',') }}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Statyti</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                                {% if item.buyNowPrice > 0 %}
+                                    <div>
+                                        <h4>Kaina perkant iškart:</h4>
+                                        <div>
+                                            <div class="h3">{{ item.buyNowPrice }}</div>
+                                            <a href="{{ path('buy_item', {'itemId': item.id}) }}">
+                                                <button class="btn btn-primary">Pirkti</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {% if item.status == 'new' %}
+                                <h4>Prekė dar nepatvirtinta</h4>
+                            {% elseif item.status == 'sold' %}
+                                <h4>Prekė parduota</h4>
+                            {% elseif item.status == 'finished' %}
+                                <h4>Aukcionas baigėsi</h4>
+                            {% elseif item.status == 'blocked' %}
+                                <h4>Prekė buvo užblokuota</h4>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <h3>Aprašymas</h3>
-                <p>{{ item.description }}</p>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Aprašymas</h3>
+                    <p>{{ item.description }}</p>
+                </div>
             </div>
-            <div>
-                <h3>Komentarai</h3>
-                {% if item.comments is not empty %}
-                    <div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Komentarai</h3>
+                    {% if item.comments is not empty %}
                         {% for comment in item.comments %}
-                            <div>
-                                <h4>{{ comment.author.username }}</h4>
-                                {{ comment.comment }}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4>{{ comment.author.username }}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    {{ comment.comment }}
+                                </div>
                             </div>
                         {% endfor %}
-                    </div>
-                {% endif %}
-                <div>
-                    {{ form_start(commentForm) }}
+                    {% endif %}
+                    <div>
+                        {{ form_start(commentForm) }}
                         <div class="form-group">
                             <label for="comment">Komentuoti:</label>
                             {{ form_widget(commentForm.comment, { 'attr': {'class': 'form-control', 'rows': '5' } }) }}
                         </div>
                         <button type="submit" class="btn btn-primary">Komentuoti</button>
-                    {{ form_end(commentForm) }}
+                        {{ form_end(commentForm) }}
+                    </div>
                 </div>
             </div>
         {% else %}
-            <h2>Aukcionas neegzistuoja</h2>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2>Aukcionas neegzistuoja</h2>
+                </div>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
