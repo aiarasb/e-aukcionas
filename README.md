@@ -1,5 +1,6 @@
 e-aukcionas
 ===========
+![alt text](https://travis-ci.org/aiarasb/e-aukcionas.svg?branch=master)
 
 A university project - auction system.
 
