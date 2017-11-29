@@ -44,7 +44,7 @@ class ItemRepository extends \Doctrine\ORM\EntityRepository
         $item->setLastUpdated($date);
 
         $this->_em->persist($item);
-        if (true == $flush) {
+        if (true === $flush) {
             $this->_em->flush();
             $this->_em->clear();
         }

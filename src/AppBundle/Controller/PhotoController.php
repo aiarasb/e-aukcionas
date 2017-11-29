@@ -53,7 +53,7 @@ class PhotoController extends Controller
             $repository = $this->getRepository();
             $repository->save($photo);
 
-            if (null == $item->getPhoto()) {
+            if (null === $item->getPhoto()) {
                 $item->setPhoto($photo);
                 /** @var ItemRepository $itemRepository */
                 $itemRepository = $this->getDoctrine()->getRepository('AppBundle:Item');
