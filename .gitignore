@@ -56,3 +56,6 @@
 
 # Sass, compass
 /.sass-cache
+
+# Vagrant
+/.vagrant
