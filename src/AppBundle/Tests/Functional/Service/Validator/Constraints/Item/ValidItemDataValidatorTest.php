@@ -32,7 +32,7 @@ class ValidItemDataValidatorTest extends TestCase
             0,
         ];
 
-        //case #0
+        //case 1
         $item = new Item();
         $cases[] = [
             $item,
@@ -40,7 +40,7 @@ class ValidItemDataValidatorTest extends TestCase
             1,
         ];
 
-        //case #0
+        //case #2
         $item = new Item();
         $item->setBasePrice(1);
         $item->setAuctionStart(new \DateTime());
@@ -51,7 +51,7 @@ class ValidItemDataValidatorTest extends TestCase
             0,
         ];
 
-        //case #0
+        //case #3
         $item = new Item();
         $item->setBuyNowPrice(1);
         $item->setAuctionStart(new \DateTime());
@@ -62,7 +62,7 @@ class ValidItemDataValidatorTest extends TestCase
             1,
         ];
 
-        //case #0
+        //case #4
         $item = new Item();
         $item->setBasePrice(1);
         $item->setAuctionEnd(new \DateTime());
@@ -72,7 +72,7 @@ class ValidItemDataValidatorTest extends TestCase
             1,
         ];
 
-        //case #0
+        //case #5
         $item = new Item();
         $item->setBasePrice(1);
         $item->setAuctionStart(new \DateTime());

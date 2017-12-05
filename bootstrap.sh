@@ -7,7 +7,7 @@ sudo apt-add-repository ppa:ondrej/php
 apt-get update && sudo apt-get upgrade
 
 # install git
-apt-get install git
+apt-get install -y git
 
 # install nginx
 apt-get install -y nginx
@@ -19,7 +19,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # install php
-apt-get install -y php7.1-cli php7.1-common php7.1-fpm php7.1-xml php7.1-mysql php-xdebug
+apt-get install -y php7.1 php7.1-cli php7.1-common php7.1-fpm php7.1-xml php7.1-mysql php7.1-mbstring php-xdebug
 
 # install composer globally
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
