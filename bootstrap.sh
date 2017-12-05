@@ -19,7 +19,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # install php
-apt-get install -y php7.0-cli php7.0-common php7.0-fpm php7.0-xml php7.0-mysql
+apt-get install -y php7.1-cli php7.1-common php7.1-fpm php7.1-xml php7.1-mysql php-xdebug
 
 # install composer globally
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -27,9 +27,6 @@ php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece38
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 mv composer.phar /usr/local/bin/composer
-
-# install mariadb
-apt-get install -y mariadb-server
 
 # set up nginx server
 rm /etc/nginx/sites-available/default
@@ -46,3 +43,6 @@ export LC_ALL=C
 
 # add default ssh dir
 echo "cd /srv" | tee -a /etc/bash.bashrc
+
+# install mariadb
+apt-get install -y mariadb-server
