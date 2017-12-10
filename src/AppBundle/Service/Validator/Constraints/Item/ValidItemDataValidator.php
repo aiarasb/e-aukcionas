@@ -15,8 +15,8 @@ class ValidItemDataValidator extends ConstraintValidator
     private $constraint;
 
     /**
-     * @param Item $value
-     * @param Constraint      $constraint
+     * @param Item       $value
+     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
@@ -38,7 +38,7 @@ class ValidItemDataValidator extends ConstraintValidator
     private function addViolation($message)
     {
         $this->context->buildViolation($message)
-            ->setCode('error')
-            ->addViolation();
+                      ->setCode('error')
+                      ->addViolation();
     }
 }

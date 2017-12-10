@@ -4,10 +4,10 @@ parameters:
 services:
     validator.unique_user_data:
         class: AppBundle\Service\Validator\Constraints\User\UniqueUserDataValidator
-        arguments: ['@doctrine']
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: validator.constraint_validator }
 
     user_manager:
         class: AppBundle\Service\User\UserManager
-        arguments: ['@doctrine', '@session']
+        arguments: ['@doctrine.orm.entity_manager', '@session']

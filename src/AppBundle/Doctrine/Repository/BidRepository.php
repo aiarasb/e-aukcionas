@@ -34,7 +34,7 @@ class BidRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('bid')
             ->where('bid.item = :item')
-            ->orderBy(['bid.sum' => 'desc'])
+            ->orderBy('bid.sum', 'desc')
             ->setParameter('item', $item)
             ->setMaxResults(1)
             ->getQuery();

@@ -7,7 +7,8 @@ use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class UserManager {
+class UserManager
+{
     /** @var  EntityManager */
     private $entityManager;
 
@@ -23,6 +24,7 @@ class UserManager {
     /**
      * UserManager constructor.
      * @param EntityManager $entityManager
+     * @param Session       $session
      */
     public function __construct($entityManager, $session)
     {
@@ -42,7 +44,7 @@ class UserManager {
 
         if ($exists) {
             $this->session->set('username', $username);
-            $this->session->set('loginToken', md5($username.md5($password)));
+            $this->session->set('loginToken', md5($username . md5($password)));
             $success = true;
         }
 

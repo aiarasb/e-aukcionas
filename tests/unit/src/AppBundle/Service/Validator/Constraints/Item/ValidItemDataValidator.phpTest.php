@@ -1,21 +1,20 @@
 <?php
 
-namespace AppBundle\Tests\Functional\Service\Validator\Constraints\Item;
+namespace src\AppBundle\Service\Validator\Constraints\Item;
 
 use AppBundle\Entity\Item;
 use AppBundle\Service\Validator\Constraints\Item\ValidItemData;
 use AppBundle\Service\Validator\Constraints\Item\ValidItemDataValidator;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContext;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilder;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
-/**
- * Class ValidItemDataValidatorTest
- */
-class ValidItemDataValidatorTest extends TestCase
+class ValidItemDataValidatorTest extends \Codeception\Test\Unit
 {
+    /**
+     * @var \UnitTester
+     */
+    protected $tester;
+
     /**
      * @return array
      */
@@ -95,18 +94,18 @@ class ValidItemDataValidatorTest extends TestCase
     {
         $validator = $this->getValidator();
         $constraint = $this->getConstraint();
-        $context = $this->getMockExecutionContext($count, $expected);
+        $context = $this->getContext($count, $expected);
 
         $validator->initialize($context);
         $validator->validate($value, $constraint);
     }
 
     /**
-     * @param int    $count
-     * @param string $expected
-     * @return ExecutionContextInterface
+     * @param int         $count
+     * @param string|null $expected
+     * @return ExecutionContext
      */
-    private function getMockExecutionContext($count, $expected)
+    private function getContext($count, $expected)
     {
         $context = $this->getMockBuilder(ExecutionContext::class)
                         ->disableOriginalConstructor()->setMethods(['buildViolation'])->getMock();
@@ -114,12 +113,12 @@ class ValidItemDataValidatorTest extends TestCase
                 ->with($this->equalTo($expected))
                 ->willReturn($this->getMockConstraintViolationBuilder());
 
-        /** @var ExecutionContextInterface $context */
+        /** @var ExecutionContext $context */
         return $context;
     }
 
     /**
-     * @return ConstraintViolationBuilderInterface
+     * @return ConstraintViolationBuilder
      */
     private function getMockConstraintViolationBuilder()
     {
@@ -128,18 +127,8 @@ class ValidItemDataValidatorTest extends TestCase
         $builder->method('setCode')->willReturn($builder);
         $builder->method('addViolation');
 
-        /** @var ConstraintViolationBuilderInterface $builder */
+        /** @var ConstraintViolationBuilder $builder */
         return $builder;
-    }
-
-    /**
-     * @return ValidItemDataValidator
-     */
-    private function getValidator()
-    {
-        $validator = new ValidItemDataValidator();
-
-        return $validator;
     }
 
     /**
@@ -150,5 +139,15 @@ class ValidItemDataValidatorTest extends TestCase
         $constraint = new ValidItemData();
 
         return $constraint;
+    }
+
+    /**
+     * @return ValidItemDataValidator
+     */
+    private function getValidator()
+    {
+        $validator = new ValidItemDataValidator();
+
+        return $validator;
     }
 }

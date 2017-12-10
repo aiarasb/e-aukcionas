@@ -3,7 +3,7 @@
 namespace AppBundle\Service\Validator\Constraints\User;
 
 use AppBundle\Entity\User;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -12,19 +12,19 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class UniqueUserDataValidator extends ConstraintValidator
 {
-    /** @var  ManagerRegistry */
-    protected $managerRegistry;
+    /** @var  EntityManager */
+    protected $entityManager;
 
     /** @var  Constraint */
     private $constraint;
 
     /**
      * ContainsPartnerDataValidator constructor.
-     * @param ManagerRegistry $managerRegistry
+     * @param EntityManager $entityManager
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->managerRegistry = $managerRegistry;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -41,7 +41,7 @@ class UniqueUserDataValidator extends ConstraintValidator
 
     private function validateUsername($username)
     {
-        $duplicate = $this->managerRegistry->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
+        $duplicate = $this->entityManager->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
 
         if (null !== $duplicate) {
             $this->addViolation('vartotojo vardas');
@@ -50,7 +50,7 @@ class UniqueUserDataValidator extends ConstraintValidator
 
     private function validateEmail($email)
     {
-        $duplicate = $this->managerRegistry->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
+        $duplicate = $this->entityManager->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
 
         if (null !== $duplicate) {
             $this->addViolation('el. pašto adresas');
